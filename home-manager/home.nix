@@ -88,8 +88,8 @@
     "x-scheme-handler/https" = "floorp.desktop";
     "x-scheme-handler/about" = "floorp.desktop";
     "x-scheme-handler/unknown" = "floorp.desktop";
-    "image/jpeg" = "org.gnome.gThumb.desktop";
-    "image/png" = "org.gnome.gThumb.desktop";
+    "image/jpeg" = "org.gnome.gthumb.desktop";
+    "image/png" = "org.gnome.gthumb.desktop";
     };
   };
 
