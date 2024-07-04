@@ -79,19 +79,10 @@
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
-  #   xdg.mimeApps = {
-  # enable = true;
-  #
-  defaultApplications = {
-    "text/html" = "floorp.desktop";
-    "x-scheme-handler/http" = "floorp.desktop";
-    "x-scheme-handler/https" = "floorp.desktop";
-    "x-scheme-handler/about" = "floorp.desktop";
-    "x-scheme-handler/unknown" = "floorp.desktop";
-    "image/jpeg" = "org.gnome.gthumb.desktop";
-    "image/png" = "org.gnome.gthumb.desktop";
-    };
-  associations.added = {
+  xdg.mimeApps = {
+    enable = true;
+
+    defaultApplications = {
     "text/html" = "floorp.desktop";
     "x-scheme-handler/http" = "floorp.desktop";
     "x-scheme-handler/https" = "floorp.desktop";
@@ -101,6 +92,15 @@
     "image/png" = "org.gnome.gthumb.desktop";
     };
 
+    associations.added = {
+    "text/html" = "floorp.desktop";
+    "x-scheme-handler/http" = "floorp.desktop";
+    "x-scheme-handler/https" = "floorp.desktop";
+    "x-scheme-handler/about" = "floorp.desktop";
+    "x-scheme-handler/unknown" = "floorp.desktop";
+    "image/jpeg" = "org.gnome.gthumb.desktop";
+    "image/png" = "org.gnome.gthumb.desktop";
+    };
   };
 
 
