@@ -100,6 +100,8 @@
     "x-scheme-handler/unknown" = ["floorp.desktop"];
     "image/jpeg" = ["org.gnome.gThumb.desktop"];
     "image/png" = ["org.gnome.gThumb.desktop"];
+    "image/gif" = ["org.gnome.gThumb.desktop"];
+    "image/xvg+xml" = ["org.gnome.gThumb.desktop"];
     };
 
   };
