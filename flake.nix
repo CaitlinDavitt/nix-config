@@ -77,20 +77,28 @@
           ./nixos/configuration.nix
           nixos-hardware.nixosModules.framework-13-7040-amd
           inputs.stylix.nixosModules.stylix
+          inputs.home-manager.nixosModules.home-manager
         ];
       };
     };
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
-    homeConfigurations = {
-      "caitlin@nixos" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          # > Our main home-manager configuration file <
-          ./home-manager/home.nix
-        ];
+    # homeConfigurations = {
+    #   "caitlin@nixos" = home-manager.lib.homeManagerConfiguration {
+    #     pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+    #     extraSpecialArgs = {inherit inputs outputs;};
+    #     modules = [
+    #       # > Our main home-manager configuration file <
+    #       ./home-manager/home.nix
+    #     ];
+    #   };
+    # };
+    home-manager = {
+      extraSpecialArgs = { inherit inputs outputs; };
+      users = {
+      # Import your home-manager configuration
+        your-username = import ../home-manager/home.nix;
       };
     };
   };
