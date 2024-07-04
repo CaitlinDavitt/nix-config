@@ -70,5 +70,6 @@
     shotcut
 
     pywal
+    yazi
   ];
 }
