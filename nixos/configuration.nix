@@ -219,7 +219,9 @@
 
       # thunderbird
       evolution
-      pantheon.elementary-mail
+      # pantheon.elementary-mail
+
+      yazi
     ];
   };
 
