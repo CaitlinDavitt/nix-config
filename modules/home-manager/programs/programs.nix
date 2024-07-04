@@ -5,6 +5,7 @@
 }: {
   home.packages = with pkgs; [
     bat
+    yazi
     blanket
     cowsay
     cbonsai
