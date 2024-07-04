@@ -5,6 +5,7 @@
     # Programming Languages
     ./dev/rust.nix
     ./dev/python.nix
+    /home/caitlin/.config/nix-config/modules/home-manager/programs/cli.nix
 
     # Programs
     ./programs/gtklock.nix

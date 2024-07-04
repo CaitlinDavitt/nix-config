@@ -44,5 +44,6 @@
 
     waybar
     xwaylandvideobridge
+    yazi
   ];
 }
