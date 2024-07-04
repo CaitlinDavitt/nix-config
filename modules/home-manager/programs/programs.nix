@@ -1,69 +1,73 @@
-{pkgs, config, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   home.packages = with pkgs; [
-  bat
-  blanket
-  cowsay
-  cbonsai
-  parallel
-  ttyper
-  # helix
-  tmux
-  zellij
-  lldb
-  mpd-notification
+    bat
+    blanket
+    cowsay
+    cbonsai
+    parallel
+    ttyper
+    # helix
+    tmux
+    zellij
+    lldb
+    mpd-notification
 
-  # jdk17
-  gnumake
-  taskwarrior
-  taskwarrior-tui
-  # Gnome icons for gtklock
-  gnome.adwaita-icon-theme
-  papirus-icon-theme
-  gnome-feeds
-  # xdg-desktop-portal-gtk
-  #xsettingsd
-  #glib
-  #gsettings-desktop-schemas
-  # xdg-desktop-portal-wlr
-  sass
+    # jdk17
+    gnumake
+    taskwarrior
+    taskwarrior-tui
+    # Gnome icons for gtklock
+    gnome.adwaita-icon-theme
+    papirus-icon-theme
+    gnome-feeds
+    # xdg-desktop-portal-gtk
+    #xsettingsd
+    #glib
+    #gsettings-desktop-schemas
+    # xdg-desktop-portal-wlr
+    sass
 
-  evince
-  baobab
+    evince
+    baobab
 
-  openvpn
+    openvpn
 
-  appimage-run
+    appimage-run
 
-  # docker
-  virt-viewer
+    # docker
+    virt-viewer
 
-  qt5.qtwayland
-  qt6.qtwayland
-  wdisplays
-  # sunshine
+    qt5.qtwayland
+    qt6.qtwayland
+    wdisplays
+    # sunshine
 
-  tuba
+    tuba
 
-  popsicle
+    popsicle
 
-  # heroic
-  # webcord-vencord
+    # heroic
+    # webcord-vencord
 
-  nodePackages.bash-language-server
-  nodejs
+    nodePackages.bash-language-server
+    nodejs
 
-  celluloid 
-  foliate
-  fragments
-  # mpv
+    celluloid
+    foliate
+    fragments
+    # mpv
 
-  typst-lsp
+    typst-lsp
 
-  floorp
-  openjdk17
+    floorp
+    openjdk17
 
-  shotcut
+    shotcut
 
-  pywal
+    pywal
   ];
 }

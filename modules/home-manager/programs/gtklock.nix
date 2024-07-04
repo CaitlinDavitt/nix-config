@@ -1,4 +1,8 @@
-{pkgs-unstable, config, ...}: {
+{
+  pkgs-unstable,
+  config,
+  ...
+}: {
   home.packages = with pkgs-unstable; [
     # Gnome icons for gtklock
     # gnome.adwaita-icon-theme
@@ -9,4 +13,3 @@
     gtklock-playerctl-module
   ];
 }
-

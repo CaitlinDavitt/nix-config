@@ -16,7 +16,7 @@
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
-    }; 
+    };
 
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
 
@@ -25,7 +25,6 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     stylix.url = "github:danth/stylix";
-
   };
 
   outputs = {

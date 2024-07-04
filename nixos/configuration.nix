@@ -69,7 +69,6 @@
 
     settings.auto-optimise-store = true;
 
-
     # Opinionated: disable channels
     channel.enable = false;
 
@@ -112,11 +111,11 @@
   #   };
   # };
 
-    users.users.caitlin = {
+  users.users.caitlin = {
     isNormalUser = true;
     description = "caitlin";
     shell = pkgs.fish;
-    extraGroups = [ "networkmanager" "wheel" "video" "libvirtd" "docker" "lxd"];
+    extraGroups = ["networkmanager" "wheel" "video" "libvirtd" "docker" "lxd"];
     # extraGroups = [ "networkmanager" "wheel" "video" "libvirtd" "lxd"];
     packages = with pkgs; [
       firefox
@@ -224,16 +223,15 @@
     ];
   };
 
-
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" "Noto" "NerdFontsSymbolsOnly" ]; })
+    (nerdfonts.override {fonts = ["FiraCode" "Noto" "NerdFontsSymbolsOnly"];})
   ];
 
-   environment.sessionVariables = rec {
-    XDG_CACHE_HOME   = "$HOME/.cache";
-    XDG_CONFIG_HOME  = "$HOME/.config";
-    XDG_DATA_HOME    = "$HOME/.local/share";
-    XDG_STATE_HOME   = "$HOME/.local/state";
+  environment.sessionVariables = rec {
+    XDG_CACHE_HOME = "$HOME/.cache";
+    XDG_CONFIG_HOME = "$HOME/.config";
+    XDG_DATA_HOME = "$HOME/.local/share";
+    XDG_STATE_HOME = "$HOME/.local/state";
     XDG_PICTURES_DIR = "$HOME/Pictures/";
     #XCURSOR_PATH = "/usr/share/icons:$XDG_DATA_HOME/icons";
     EDITOR = "nvim";
@@ -241,16 +239,17 @@
     MOZ_ENABLE_WAYLAND = "1";
   };
 
-    environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-    (python3.withPackages(ps: with ps; [ 
-      pip 
-      imaplib2 
-      matplotlib 
-      pandas 
-      numpy
-    ]))
+  environment.systemPackages = with pkgs; [
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #  wget
+    (python3.withPackages (ps:
+      with ps; [
+        pip
+        imaplib2
+        matplotlib
+        pandas
+        numpy
+      ]))
 
     greetd.tuigreet
     virt-manager
@@ -264,172 +263,170 @@
   security.polkit.enable = true;
 
   systemd = {
-  user.services.polkit-gnome-authentication-agent-1 = {
-    description = "polkit-gnome-authentication-agent-1";
-    wantedBy = [ "graphical-session.target" ];
-    wants = [ "graphical-session.target" ];
-    after = [ "graphical-session.target" ];
-    serviceConfig = {
+    user.services.polkit-gnome-authentication-agent-1 = {
+      description = "polkit-gnome-authentication-agent-1";
+      wantedBy = ["graphical-session.target"];
+      wants = ["graphical-session.target"];
+      after = ["graphical-session.target"];
+      serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
         Restart = "on-failure";
         RestartSec = 1;
         TimeoutStopSec = 10;
       };
+    };
+
+    user.services.mpris-proxy = {
+      description = "Mpris proxy";
+      after = ["network.target" "sound.target"];
+      wantedBy = ["default.target"];
+      serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
+    };
   };
-  
-  user.services.mpris-proxy = {
-    description = "Mpris proxy";
-    after = [ "network.target" "sound.target" ];
-    wantedBy = [ "default.target" ];
-    serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
-  };
-  
 
-};
+  services.udev.extraRules = ''
+        # Your rule goes here
+        # udev rule to detect android devices
+    # These rules refer to http://developer.android.com/tools/device.html
 
-services.udev.extraRules = ''
-    # Your rule goes here
-    # udev rule to detect android devices
-# These rules refer to http://developer.android.com/tools/device.html
-
-# Acer
-SUBSYSTEM=="usb", ATTR{idVendor}=="0502", MODE="0666", GROUP="plugdev"
-# Archos
-SUBSYSTEM=="usb", ATTR{idVendor}=="0e79", MODE="0666", GROUP="plugdev"
-# Asus
-SUBSYSTEM=="usb", ATTR{idVendor}=="0b05", MODE="0666", GROUP="plugdev"
-# Azpen Onda
-SUBSYSTEM=="usb", ATTR{idVendor}=="1f3a", MODE="0666", GROUP="plugdev"
-# BQ
-SUBSYSTEM=="usb", ATTR{idVendor}=="2a47", MODE="0666", GROUP="plugdev"
-# Dell
-SUBSYSTEM=="usb", ATTR{idVendor}=="413c", MODE="0666", GROUP="plugdev"
-# Fairphone
-SUBSYSTEM=="usb", ATTR{idVendor}=="2ae5", MODE="0666", GROUP="plugdev"
-# Foxconn
-SUBSYSTEM=="usb", ATTR{idVendor}=="0489", MODE="0666", GROUP="plugdev"
-# Fujitsu Toshiba 	
-SUBSYSTEM=="usb", ATTR{idVendor}=="04c5", MODE="0666", GROUP="plugdev"
-# Garmin-Asus
-SUBSYSTEM=="usb", ATTR{idVendor}=="091e", MODE="0666", GROUP="plugdev"
-# Google
-SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", MODE="0666", GROUP="plugdev"
-# Haier
-SUBSYSTEM=="usb", ATTR{idVendor}=="201e", MODE="0666", GROUP="plugdev"
-# Hisense
-SUBSYSTEM=="usb", ATTR{idVendor}=="109b", MODE="0666", GROUP="plugdev"
-# HTC, Wiko
-SUBSYSTEM=="usb", ATTR{idVendor}=="0bb4", MODE="0666", GROUP="plugdev"
-# Huawei
-SUBSYSTEM=="usb", ATTR{idVendor}=="12d1", MODE="0666", GROUP="plugdev"
-# Intel
-SUBSYSTEM=="usb", ATTR{idVendor}=="8087", MODE="0666", GROUP="plugdev"
-# K-Touch
-SUBSYSTEM=="usb", ATTR{idVendor}=="24e3", MODE="0666", GROUP="plugdev"
-# KT Tech
-SUBSYSTEM=="usb", ATTR{idVendor}=="2116", MODE="0666", GROUP="plugdev"
-# Kyocera
-SUBSYSTEM=="usb", ATTR{idVendor}=="0482", MODE="0666", GROUP="plugdev"
-# Lab126
-SUBSYSTEM=="usb", ATTR{idVendor}=="1949", MODE="0666", GROUP="plugdev"
-# Lenovo
-SUBSYSTEM=="usb", ATTR{idVendor}=="17ef", MODE="0666", GROUP="plugdev"
-# LG
-SUBSYSTEM=="usb", ATTR{idVendor}=="1004", MODE="0666", GROUP="plugdev"
-# Meizu
-SUBSYSTEM=="usb", ATTR{idVendor}=="2a45", MODE="0666", GROUP="plugdev"
-# Micromax
-SUBSYSTEM=="usb", ATTR{idVendor}=="1ebf", MODE="0666", GROUP="plugdev"
-# Motorola
-SUBSYSTEM=="usb", ATTR{idVendor}=="22b8", MODE="0666", GROUP="plugdev"
-# MTK
-SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", MODE="0666", GROUP="plugdev"
-# NEC
-SUBSYSTEM=="usb", ATTR{idVendor}=="0409", MODE="0666", GROUP="plugdev"
-# Nook
-SUBSYSTEM=="usb", ATTR{idVendor}=="2080", MODE="0666", GROUP="plugdev"
-# Nvidia
-SUBSYSTEM=="usb", ATTR{idVendor}=="0955", MODE="0666", GROUP="plugdev"
-# OnePlus Two (unknown vendor's name)
-SUBSYSTEM=="usb", ATTR{idVendor}=="2a70", MODE="0666", GROUP="plugdev"
-# Oppo
-SUBSYSTEM=="usb", ATTR{idVendor}=="22d9", MODE="0666", GROUP="plugdev"
-# OTGV
-SUBSYSTEM=="usb", ATTR{idVendor}=="2257", MODE="0666", GROUP="plugdev"
-# Pantech
-SUBSYSTEM=="usb", ATTR{idVendor}=="10a9", MODE="0666", GROUP="plugdev"
-# Pegatron
-SUBSYSTEM=="usb", ATTR{idVendor}=="1d4d", MODE="0666", GROUP="plugdev"
-# Philips
-SUBSYSTEM=="usb", ATTR{idVendor}=="0471", MODE="0666", GROUP="plugdev"
-# PMC-Sierra
-SUBSYSTEM=="usb", ATTR{idVendor}=="04da", MODE="0666", GROUP="plugdev"
-# Qualcomm
-SUBSYSTEM=="usb", ATTR{idVendor}=="05c6", MODE="0666", GROUP="plugdev"
-# Rockcwell Electronics
-SUBSYSTEM=="usb", ATTR{idVendor}=="2207", MODE="0666", GROUP="plugdev"
-# SK Telesys
-SUBSYSTEM=="usb", ATTR{idVendor}=="1f53", MODE="0666", GROUP="plugdev"
-# Samsung
-SUBSYSTEM=="usb", ATTR{idVendor}=="04e8", MODE="0666", GROUP="plugdev"
-# Sharp
-SUBSYSTEM=="usb", ATTR{idVendor}=="04dd", MODE="0666", GROUP="plugdev"
-# Sony
-SUBSYSTEM=="usb", ATTR{idVendor}=="054c", MODE="0666", GROUP="plugdev"
-# Sony Ericsson
-SUBSYSTEM=="usb", ATTR{idVendor}=="0fce", MODE="0666", GROUP="plugdev"
-# Spreadtrum
-SUBSYSTEM=="usb", ATTR{idVendor}=="1782", MODE="0666", GROUP="plugdev"
-# T & A Mobile Phones
-SUBSYSTEM=="usb", ATTR{idVendor}=="1bbb", MODE="0666", GROUP="plugdev"
-# Teleepoch
-SUBSYSTEM=="usb", ATTR{idVendor}=="2340", MODE="0666", GROUP="plugdev"
-# Texas Instruments UsbBoot
-SUBSYSTEM=="usb", ATTR{idVendor}=="0451", MODE="0666", GROUP="plugdev"
-# Toshiba
-SUBSYSTEM=="usb", ATTR{idVendor}=="0930", MODE="0666", GROUP="plugdev"
-# Wearners
-SUBSYSTEM=="usb", ATTR{idVendor}=="05c6", MODE="0666", GROUP="plugdev"
-# Wileyfox
-SUBSYSTEM=="usb", ATTR{idVendor}=="2970", MODE="0666", GROUP="plugdev"
-# XiaoMi
-SUBSYSTEM=="usb", ATTR{idVendor}=="2717", MODE="0666", GROUP="plugdev"
-# YU
-SUBSYSTEM=="usb", ATTR{idVendor}=="1ebf", MODE="0666", GROUP="plugdev"
-# Zebra
-SUBSYSTEM=="usb", ATTR{idVendor}=="05e0", MODE="0666", GROUP="plugdev"
-# ZTE
-SUBSYSTEM=="usb", ATTR{idVendor}=="19d2", MODE="0666", GROUP="plugdev"
-# ZUK
-SUBSYSTEM=="usb", ATTR{idVendor}=="2b4c", MODE="0666", GROUP="plugdev"
+    # Acer
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0502", MODE="0666", GROUP="plugdev"
+    # Archos
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0e79", MODE="0666", GROUP="plugdev"
+    # Asus
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0b05", MODE="0666", GROUP="plugdev"
+    # Azpen Onda
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1f3a", MODE="0666", GROUP="plugdev"
+    # BQ
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2a47", MODE="0666", GROUP="plugdev"
+    # Dell
+    SUBSYSTEM=="usb", ATTR{idVendor}=="413c", MODE="0666", GROUP="plugdev"
+    # Fairphone
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2ae5", MODE="0666", GROUP="plugdev"
+    # Foxconn
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0489", MODE="0666", GROUP="plugdev"
+    # Fujitsu Toshiba
+    SUBSYSTEM=="usb", ATTR{idVendor}=="04c5", MODE="0666", GROUP="plugdev"
+    # Garmin-Asus
+    SUBSYSTEM=="usb", ATTR{idVendor}=="091e", MODE="0666", GROUP="plugdev"
+    # Google
+    SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", MODE="0666", GROUP="plugdev"
+    # Haier
+    SUBSYSTEM=="usb", ATTR{idVendor}=="201e", MODE="0666", GROUP="plugdev"
+    # Hisense
+    SUBSYSTEM=="usb", ATTR{idVendor}=="109b", MODE="0666", GROUP="plugdev"
+    # HTC, Wiko
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0bb4", MODE="0666", GROUP="plugdev"
+    # Huawei
+    SUBSYSTEM=="usb", ATTR{idVendor}=="12d1", MODE="0666", GROUP="plugdev"
+    # Intel
+    SUBSYSTEM=="usb", ATTR{idVendor}=="8087", MODE="0666", GROUP="plugdev"
+    # K-Touch
+    SUBSYSTEM=="usb", ATTR{idVendor}=="24e3", MODE="0666", GROUP="plugdev"
+    # KT Tech
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2116", MODE="0666", GROUP="plugdev"
+    # Kyocera
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0482", MODE="0666", GROUP="plugdev"
+    # Lab126
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1949", MODE="0666", GROUP="plugdev"
+    # Lenovo
+    SUBSYSTEM=="usb", ATTR{idVendor}=="17ef", MODE="0666", GROUP="plugdev"
+    # LG
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1004", MODE="0666", GROUP="plugdev"
+    # Meizu
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2a45", MODE="0666", GROUP="plugdev"
+    # Micromax
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1ebf", MODE="0666", GROUP="plugdev"
+    # Motorola
+    SUBSYSTEM=="usb", ATTR{idVendor}=="22b8", MODE="0666", GROUP="plugdev"
+    # MTK
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", MODE="0666", GROUP="plugdev"
+    # NEC
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0409", MODE="0666", GROUP="plugdev"
+    # Nook
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2080", MODE="0666", GROUP="plugdev"
+    # Nvidia
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0955", MODE="0666", GROUP="plugdev"
+    # OnePlus Two (unknown vendor's name)
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2a70", MODE="0666", GROUP="plugdev"
+    # Oppo
+    SUBSYSTEM=="usb", ATTR{idVendor}=="22d9", MODE="0666", GROUP="plugdev"
+    # OTGV
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2257", MODE="0666", GROUP="plugdev"
+    # Pantech
+    SUBSYSTEM=="usb", ATTR{idVendor}=="10a9", MODE="0666", GROUP="plugdev"
+    # Pegatron
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1d4d", MODE="0666", GROUP="plugdev"
+    # Philips
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0471", MODE="0666", GROUP="plugdev"
+    # PMC-Sierra
+    SUBSYSTEM=="usb", ATTR{idVendor}=="04da", MODE="0666", GROUP="plugdev"
+    # Qualcomm
+    SUBSYSTEM=="usb", ATTR{idVendor}=="05c6", MODE="0666", GROUP="plugdev"
+    # Rockcwell Electronics
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2207", MODE="0666", GROUP="plugdev"
+    # SK Telesys
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1f53", MODE="0666", GROUP="plugdev"
+    # Samsung
+    SUBSYSTEM=="usb", ATTR{idVendor}=="04e8", MODE="0666", GROUP="plugdev"
+    # Sharp
+    SUBSYSTEM=="usb", ATTR{idVendor}=="04dd", MODE="0666", GROUP="plugdev"
+    # Sony
+    SUBSYSTEM=="usb", ATTR{idVendor}=="054c", MODE="0666", GROUP="plugdev"
+    # Sony Ericsson
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0fce", MODE="0666", GROUP="plugdev"
+    # Spreadtrum
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1782", MODE="0666", GROUP="plugdev"
+    # T & A Mobile Phones
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1bbb", MODE="0666", GROUP="plugdev"
+    # Teleepoch
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2340", MODE="0666", GROUP="plugdev"
+    # Texas Instruments UsbBoot
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0451", MODE="0666", GROUP="plugdev"
+    # Toshiba
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0930", MODE="0666", GROUP="plugdev"
+    # Wearners
+    SUBSYSTEM=="usb", ATTR{idVendor}=="05c6", MODE="0666", GROUP="plugdev"
+    # Wileyfox
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2970", MODE="0666", GROUP="plugdev"
+    # XiaoMi
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2717", MODE="0666", GROUP="plugdev"
+    # YU
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1ebf", MODE="0666", GROUP="plugdev"
+    # Zebra
+    SUBSYSTEM=="usb", ATTR{idVendor}=="05e0", MODE="0666", GROUP="plugdev"
+    # ZTE
+    SUBSYSTEM=="usb", ATTR{idVendor}=="19d2", MODE="0666", GROUP="plugdev"
+    # ZUK
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2b4c", MODE="0666", GROUP="plugdev"
   '';
 
   stylix.enable = true;
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/everforest.yaml";
   stylix.image = "/dev/null";
 
-    services.auto-cpufreq.enable = true;
+  services.auto-cpufreq.enable = true;
   services.auto-cpufreq.settings = {
-  battery = {
-     governor = "powersave";
-     turbo = "never";
-  };
-  charger = {
-     governor = "performance";
-     turbo = "auto";
-  };
+    battery = {
+      governor = "powersave";
+      turbo = "never";
+    };
+    charger = {
+      governor = "performance";
+      turbo = "auto";
+    };
   };
   powerManagement.powertop.enable = true;
 
-    users.extraGroups.vboxusers.members = [ "caitlin" ];
+  users.extraGroups.vboxusers.members = ["caitlin"];
   programs.dconf.enable = true;
-  
+
   environment.etc."vbox/networks.conf".text = ''
     * 192.168.0.0/16
   '';
 
-    virtualisation = {
+  virtualisation = {
     libvirtd.enable = true;
     # docker.enable = true;
     # docker.storageDriver = "btrfs";
@@ -437,43 +434,43 @@ SUBSYSTEM=="usb", ATTR{idVendor}=="2b4c", MODE="0666", GROUP="plugdev"
     # lxd.enable = true;
   };
 
-    programs.fish.enable = true;
+  programs.fish.enable = true;
 
   programs.steam = {
-  enable = true;
-  remotePlay.openFirewall = false; # Open ports in the firewall for Steam Remote Play
-  dedicatedServer.openFirewall = false; # Open ports in the firewall for Source Dedicated Server
-};
+    enable = true;
+    remotePlay.openFirewall = false; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = false; # Open ports in the firewall for Source Dedicated Server
+  };
 
   services.flatpak.enable = true;
   xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
   programs.light.enable = true;
-    programs.gnome-disks.enable = true;
+  programs.gnome-disks.enable = true;
   services.udisks2.enable = true;
 
-    services.mpd = {
-  enable = true;
-  musicDirectory = "/home/caitlin/Music/";
-  extraConfig = ''
-    # must specify one or more outputs in order to play audio!
-    # (e.g. ALSA, PulseAudio, PipeWire), see next sections
-    audio_output {
-    type "pipewire"
-    name "My PipeWire Output"
-    }
+  services.mpd = {
+    enable = true;
+    musicDirectory = "/home/caitlin/Music/";
+    extraConfig = ''
+      # must specify one or more outputs in order to play audio!
+      # (e.g. ALSA, PulseAudio, PipeWire), see next sections
+      audio_output {
+      type "pipewire"
+      name "My PipeWire Output"
+      }
 
-    audio_output {
-    type "pipewire"
-    name "My PipeWire Output"
-    }
-  '';
+      audio_output {
+      type "pipewire"
+      name "My PipeWire Output"
+      }
+    '';
 
-  # services.mpd-mpris.enable = true;
+    # services.mpd-mpris.enable = true;
 
-  # Optional:
-  network.listenAddress = "6600"; # if you want to allow non-localhost connections
-  startWhenNeeded = true; # systemd feature: only start MPD service upon connection to its socket
+    # Optional:
+    network.listenAddress = "6600"; # if you want to allow non-localhost connections
+    startWhenNeeded = true; # systemd feature: only start MPD service upon connection to its socket
   };
 
   services.blueman.enable = true;
@@ -508,27 +505,27 @@ SUBSYSTEM=="usb", ATTR{idVendor}=="2b4c", MODE="0666", GROUP="plugdev"
   # services.gnome.gnome-online-accounts.enable = true;
   services.gnome.gnome-keyring.enable = true;
   services.gnome.evolution-data-server.enable = true;
-   programs.waybar = {
-   enable = true;
- };
+  programs.waybar = {
+    enable = true;
+  };
 
-   programs.hyprland = {
+  programs.hyprland = {
     enable = true;
     xwayland.enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
 
-    services.fwupd.enable = true;
+  services.fwupd.enable = true;
   services.chrony.enable = true;
 
-    environment.binsh = "${pkgs.dash}/bin/dash";
+  environment.binsh = "${pkgs.dash}/bin/dash";
 
-      hardware = {
+  hardware = {
     opengl.enable = true;
     bluetooth.enable = true;
   };
 
-    services.greetd = {
+  services.greetd = {
     enable = true;
     settings = {
       default_session = {
@@ -537,7 +534,7 @@ SUBSYSTEM=="usb", ATTR{idVendor}=="2b4c", MODE="0666", GROUP="plugdev"
       };
     };
   };
-    services.xserver = {
+  services.xserver = {
     xkb.layout = "de";
     xkb.variant = "us";
     #displayManager.gdm = {
@@ -548,7 +545,7 @@ SUBSYSTEM=="usb", ATTR{idVendor}=="2b4c", MODE="0666", GROUP="plugdev"
 
   services.xserver.enable = false;
 
-    i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
@@ -562,9 +559,9 @@ SUBSYSTEM=="usb", ATTR{idVendor}=="2b4c", MODE="0666", GROUP="plugdev"
     LC_TIME = "en_US.UTF-8";
   };
 
-    time.timeZone = "America/Chicago";
+  time.timeZone = "America/Chicago";
 
-      networking.networkmanager.enable = true;
+  networking.networkmanager.enable = true;
 
   boot.extraModprobeConfig = ''
     # exclusive_caps: Skype, Zoom, Teams etc. will only show device when actually streaming
