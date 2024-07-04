@@ -12,5 +12,6 @@
     ./programs/programs.nix
     ./programs/sunshine.nix
     ./programs/programs-unstable.nix
+    ./programs/cli.nix
   ];
 }
