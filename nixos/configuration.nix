@@ -1,4 +1,4 @@
-# This is your system's configuration file.
+# This nis your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
   inputs,
@@ -6,6 +6,10 @@
   lib,
   config,
   pkgs,
+  gBar,
+  fenix,
+  nixpkgs-unstable,
+  # pkgs.unstable,
   ...
 }: {
   # You can import other NixOS modules here
@@ -22,7 +26,18 @@
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.home-manager
   ];
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs gBar fenix outputs nixpkgs-unstable; };
+    # extraSpecialArgs = { inherit inputs gBar pkgs-unstable fenix outputs; };
+    users = {
+        # Import your home-manager configuration
+        caitlin = import ../home-manager/home.nix;
+    };
+    backupFileExtension="backup-1-";
+  };
 
   nixpkgs = {
     # You can add overlays here
@@ -70,7 +85,7 @@
     settings.auto-optimise-store = true;
 
     # Opinionated: disable channels
-    channel.enable = false;
+    channel.enable = true;
 
     # Opinionated: make flake registry and nix path match flake inputs
     registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
@@ -218,10 +233,7 @@
       gnome.gnome-calendar
 
       # thunderbird
-      evolution
       # pantheon.elementary-mail
-
-      yazi
     ];
   };
 
@@ -239,6 +251,14 @@
     EDITOR = "nvim";
     TERM = "kitty";
     MOZ_ENABLE_WAYLAND = "1";
+    QT_QPA_PLATFORMTHEME = "qt6ct";
+    QT_QPA_PLATFORM = "wayland";
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    QT_STYLE_OVERRIDE = "kvantum";
+    # XCURSOR_THEME = "Bibata-Modern-Classic";
+    # XCURSOR_SIZE = "18";
+
   };
 
   environment.systemPackages = with pkgs; [
@@ -404,9 +424,18 @@
     SUBSYSTEM=="usb", ATTR{idVendor}=="2b4c", MODE="0666", GROUP="plugdev"
   '';
 
-  stylix.enable = true;
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/everforest.yaml";
-  stylix.image = "/dev/null";
+  stylix = {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/everforest.yaml";
+    image = "/dev/null";
+
+    cursor = {
+      name = "Bibata-Modern-Classic";
+      package = pkgs.bibata-cursors;
+      size = 18;
+    };
+  };
+
 
   services.auto-cpufreq.enable = true;
   services.auto-cpufreq.settings = {
@@ -564,6 +593,20 @@
   time.timeZone = "America/Chicago";
 
   networking.networkmanager.enable = true;
+
+  services = {
+  logind.extraConfig = ''
+    HandlePowerKey=suspend-then-hibernate
+    HandlePowerKeyLongPress=poweroff
+    HandleLidSwitch=ignore
+    HandleLidSwitchExternalPower=ignore
+    HandleLidSwitchDocked=ignore
+    HoldoffTimeoutSec=5s
+  '';
+  };
+  systemd = {
+    sleep.extraConfig = "HibernateDelaySec=1h";
+  };
 
   boot.extraModprobeConfig = ''
     # exclusive_caps: Skype, Zoom, Teams etc. will only show device when actually streaming

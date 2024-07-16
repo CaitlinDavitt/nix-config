@@ -5,7 +5,6 @@
 }: {
   home.packages = with pkgs; [
     bat
-    yazi
     blanket
     cowsay
     cbonsai
@@ -15,7 +14,6 @@
     tmux
     zellij
     lldb
-    mpd-notification
 
     # jdk17
     gnumake
@@ -70,6 +68,15 @@
     shotcut
 
     pywal
-    yazi
+
+    bitwarden
+
+    valent
+
+    aerc
+    w3m
+    dante
+
+
   ];
 }

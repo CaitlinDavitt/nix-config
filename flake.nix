@@ -36,6 +36,7 @@
     gBar,
     stylix,
     nixos-hardware,
+    nixpkgs-unstable,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -47,13 +48,17 @@
       "aarch64-darwin"
       "x86_64-darwin"
     ];
+
+
     # This is a function that generates an attribute by calling a function you
     # pass to it, with each system as an argument
     forAllSystems = nixpkgs.lib.genAttrs systems;
+    system = "x86_64-linux";
   in {
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
@@ -65,13 +70,14 @@
     nixosModules = import ./modules/nixos;
     # Reusable home-manager modules you might want to export
     # These are usually stuff you would upstream into home-manager
-    homeManagerModules = import ./modules/home-manager;
+    # homeManagerModules = import ./modules/home-manager;
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {inherit inputs gBar fenix outputs;};
+        # specialArgs = {inherit inputs gBar fenix pkgs-unstable outputs;};
         modules = [
           # > Our main nixos configuration file <
           ./nixos/configuration.nix
@@ -94,12 +100,5 @@
     #     ];
     #   };
     # };
-    home-manager = {
-      extraSpecialArgs = { inherit inputs outputs; };
-      users = {
-      # Import your home-manager configuration
-        caitlin = import ../home-manager/home.nix;
-      };
-    };
   };
 }

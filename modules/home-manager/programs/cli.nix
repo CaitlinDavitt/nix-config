@@ -7,5 +7,5 @@
   home.packages = with pkgs; [
     yazi
     xdragon
-  ]
+  ];
 }

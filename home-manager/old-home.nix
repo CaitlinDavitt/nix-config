@@ -106,7 +106,7 @@
     pamixer
   ];
 
-  stylix.targets.kde.enable = false;
+  # stylix.targets.kde.enable = false;
 
 
 

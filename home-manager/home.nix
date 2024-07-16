@@ -6,9 +6,8 @@
   lib,
   config,
   pkgs,
-  pkgs-unsatable,
-  fenix,
   gBar,
+  fenix,
   ...
 }: {
   # You can import other home-manager modules here
@@ -54,12 +53,44 @@
     homeDirectory = "/home/caitlin";
   };
 
-  qt = {
+  # lib.mkForce.home.sessionVariables = {
+  #   XCURSOR_THEME = "Bibata-Modern-Classic";
+  #   XCURSOR_SIZE = "18";
+  # };
+  #
+  lib.mkForce.gtk = {
     enable = true;
-    platformTheme.name = "qtct";
-    style.name = "Breeze";
+    theme = {
+      name = "Everforest-Dark-BL";
+      # package = pkgs.materia-theme;
+    };
+    # cursorTheme = {
+    #   name = "everforest-cursors";
+    #   size = 24;
+    # };
+    # font = {
+    #   name = "Fira Code";
+    # };
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
   };
 
+
+  lib.mkForce.qt = {
+    enable = true;
+    platformTheme.name = "qtct";
+    style.name = "kvantum";
+  };
+
+  # lib.mkForce.pointerCursor = {
+  #   name = "Bibata-Modern-Classic";
+  #   package = pkgs.bibata-cursors;
+  #   size = 16;
+  #   x11.enable = true;
+  # };
+  #
   home.packages = with pkgs; [
     # here is some command line tools I use frequently
     # feel free to add your own or remove some of them
@@ -67,7 +98,56 @@
     pamixer
   ];
 
-  stylix.targets.kde.enable = false;
+  stylix = {
+    enable = true;
+    targets = {
+      kde = {
+        enable = false;
+      };
+      gtk = {
+        enable = true;
+      };
+    };
+    # cursor = {
+    #   name = "Bibata-Modern-Classic";
+    #   package = pkgs.bibata-cursors;
+    #   size = 18;
+    # };
+    fonts = {
+      monospace = {
+        name = "Fira Code";
+        package = pkgs.fira-code;
+      };
+
+      emoji = {
+        name = "Noto Color Emoji";
+        package = pkgs.noto-fonts-color-emoji;
+      };
+
+      sansSerif = {
+        name = "Fira Sans";
+        package = pkgs.fira;
+      };
+
+      serif = {
+        name = "Linux Libertine";
+        package = pkgs.libertine;
+      };
+
+      sizes = {
+        applications = 10;
+        # terminaal = 10;
+      };
+    };
+  };
+
+#   home.pointerCursor = {
+#     gtk.enable = true;
+#     package = pkgs.bibata-cursors;
+#     name = "Bibata-Modern-Classic";
+#     size = 18;
+# };
+
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
@@ -79,6 +159,12 @@
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
+
+  # services = {
+  #   kdeconnect = {
+  #     enable = true;
+  #   };
+  # };
 
   xdg.mimeApps = {
     enable = true;
@@ -110,4 +196,4 @@
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "24.05";
-}
+}  

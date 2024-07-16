@@ -1,17 +1,19 @@
 {
-  pkgs-unstable,
-  fenix,
+  pkgs,
   ...
 }: {
-  nixpkgs.overlays = [fenix.overlays.default];
-  environment.systemPackages = with pkgs-unstable; [
-    (fenix.complete.withComponents [
-      "cargo"
-      "clippy"
-      "rust-src"
-      "rustc"
-      "rustfmt"
-    ])
+  home.packages = with pkgs.unstable; [
+    # (fenix.complete.withComponents [
+    #   "cargo"
+    #   "clippy"
+    #   "rust-src"
+    #   "rustc"
+    #   "rustfmt"
+    # ])
+    cargo
+    clippy
+    rustc
+    rustfmt
     rust-analyzer
     clippy
     cargo-flamegraph

@@ -1,5 +1,5 @@
-{pkgs-unstable, ...}: {
-  environment.systemPackages = with pkgs-unstable; [
+{pkgs, ...}: {
+  home.packages = with pkgs.unstable; [
     (python3.withPackages (ps:
       with ps;
       with python3Packages; [
@@ -7,7 +7,7 @@
         # flask-cors
         # tensorflow
         # sklearn-deap
-        jupyter
+        # jupyter
         # ipython
         # github3_py
 
@@ -21,11 +21,11 @@
         tomlkit
         toml
         virtualenv
-        gcc-unwrapped
-        typing-extensions
-        mrjob
+        # gcc-unwrapped
+        # typing-extensions
+        # mrjob
       ]))
-    hadoop
+    # hadoop
     spark
   ];
 }

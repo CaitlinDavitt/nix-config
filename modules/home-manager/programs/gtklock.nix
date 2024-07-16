@@ -1,9 +1,9 @@
 {
-  pkgs-unstable,
+  pkgs,
   config,
   ...
 }: {
-  home.packages = with pkgs-unstable; [
+  home.packages = with pkgs.unstable; [
     # Gnome icons for gtklock
     # gnome.adwaita-icon-theme
     gtklock
