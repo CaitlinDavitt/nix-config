@@ -6,10 +6,10 @@
   home.packages = with pkgs.unstable; [
     # Gnome icons for gtklock
     # gnome.adwaita-icon-theme
-    gtklock
+    # gtklock
     swaylock
-    gtklock-userinfo-module
-    gtklock-powerbar-module
-    gtklock-playerctl-module
+    # gtklock-userinfo-module
+    # gtklock-powerbar-module
+    # gtklock-playerctl-module
   ];
 }

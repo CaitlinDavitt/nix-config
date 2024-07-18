@@ -15,7 +15,6 @@
     # xdg-desktop-portal-gnome
     # xdg-desktop-portal-wlr
     swww
-    helix
     ironbar
     eza
     lxd-lts
