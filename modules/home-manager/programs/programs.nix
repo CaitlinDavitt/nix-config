@@ -72,8 +72,9 @@
     bitwarden
 
     valent
-
-    aerc
+    
+    evolution
+    neomutt
     w3m
     dante
 

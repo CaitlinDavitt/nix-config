@@ -18,6 +18,6 @@
     ./programs/programs-unstable.nix
     ./programs/helix.nix
     ./programs/cli.nix
-    ./programs/hyprland.nix
+    ./hyprland/default.nix
   ];
 }
