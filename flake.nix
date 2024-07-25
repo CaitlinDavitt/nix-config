@@ -13,10 +13,10 @@
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    fenix = {
-      url = "github:nix-community/fenix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    # fenix = {
+    #   url = "github:nix-community/fenix";
+    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # };
 
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
 
@@ -31,12 +31,12 @@
     self,
     nixpkgs,
     home-manager,
-    fenix,
+    # fenix,
     hyprland,
     gBar,
     stylix,
     nixos-hardware,
-    nixpkgs-unstable,
+    # nixpkgs-unstable,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -48,7 +48,6 @@
       "aarch64-darwin"
       "x86_64-darwin"
     ];
-
 
     # This is a function that generates an attribute by calling a function you
     # pass to it, with each system as an argument
@@ -76,7 +75,7 @@
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs gBar fenix outputs;};
+        specialArgs = {inherit inputs gBar outputs;};
         # specialArgs = {inherit inputs gBar fenix pkgs-unstable outputs;};
         modules = [
           # > Our main nixos configuration file <

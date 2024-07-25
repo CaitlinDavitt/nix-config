@@ -8,5 +8,7 @@
   imports = [
     # Hyprland
     ./hyprland.nix
+    ./swaync.nix
+    ./waybar.nix
   ];
 }

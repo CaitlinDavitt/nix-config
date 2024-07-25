@@ -7,6 +7,7 @@
   programs.helix = {
     enable = true;
     defaultEditor = true;
+    package = pkgs.unstable.helix;
     settings = {
       # theme = "everforest-dark";
       editor = {
@@ -28,6 +29,11 @@
       {
         name = "rust";
         auto-format = true;
+      }
+    ];
+    languages.grammar = [
+      {
+        name = "nix";
       }
     ];
   };

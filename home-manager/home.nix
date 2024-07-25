@@ -77,7 +77,6 @@
     };
   };
 
-
   lib.mkForce.qt = {
     enable = true;
     platformTheme.name = "qtct";
@@ -108,11 +107,11 @@
         enable = true;
       };
     };
-    # cursor = {
-    #   name = "Bibata-Modern-Classic";
-    #   package = pkgs.bibata-cursors;
-    #   size = 18;
-    # };
+    cursor = {
+      name = "Bibata-Modern-Classic";
+      package = pkgs.bibata-cursors;
+      size = 18;
+    };
     fonts = {
       monospace = {
         name = "Fira Code";
@@ -141,13 +140,12 @@
     };
   };
 
-#   home.pointerCursor = {
-#     gtk.enable = true;
-#     package = pkgs.bibata-cursors;
-#     name = "Bibata-Modern-Classic";
-#     size = 18;
-# };
-
+  #   lib.mkForce.home.pointerCursor = {
+  #     gtk.enable = true;
+  #     package = pkgs.bibata-cursors;
+  #     name = "Bibata-Modern-Classic";
+  #     size = 18;
+  # };
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
@@ -160,40 +158,53 @@
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
-  # services = {
-  #   kdeconnect = {
-  #     enable = true;
-  #   };
-  # };
+  services = {
+    # kdeconnect = {
+    #   enable = true;
+    # };
+    mpd-mpris.enable = true;
+  };
 
   xdg.mimeApps = {
     enable = true;
 
     associations.added = {
-    "text/html" = ["floorp.desktop"];
-    "x-scheme-handler/http" = ["floorp.desktop"];
-    "x-scheme-handler/https" = ["floorp.desktop"];
-    "x-scheme-handler/about" = ["floorp.desktop"];
-    "x-scheme-handler/unknown" = ["floorp.desktop"];
-    "image/jpeg" = ["org.gnome.gThumb.desktop"];
-    "image/png" = ["org.gnome.gThumb.desktop"];
+      "text/html" = ["floorp.desktop"];
+      "x-scheme-handler/http" = ["floorp.desktop"];
+      "x-scheme-handler/https" = ["floorp.desktop"];
+      "x-scheme-handler/about" = ["floorp.desktop"];
+      "x-scheme-handler/unknown" = ["floorp.desktop"];
+      "image/jpeg" = ["org.gnome.gThumb.desktop"];
+      "image/png" = ["org.gnome.gThumb.desktop"];
+      "image/svg+xml" = ["org.gnome.gThumb.desktop"];
     };
 
     defaultApplications = {
-    "text/html" = ["floorp.desktop"];
-    "x-scheme-handler/http" = ["floorp.desktop"];
-    "x-scheme-handler/https" = ["floorp.desktop"];
-    "x-scheme-handler/about" = ["floorp.desktop"];
-    "x-scheme-handler/unknown" = ["floorp.desktop"];
-    "image/jpeg" = ["org.gnome.gThumb.desktop"];
-    "image/png" = ["org.gnome.gThumb.desktop"];
-    "image/gif" = ["org.gnome.gThumb.desktop"];
-    "image/xvg+xml" = ["org.gnome.gThumb.desktop"];
+      "text/html" = ["floorp.desktop"];
+      "x-scheme-handler/http" = ["floorp.desktop"];
+      "x-scheme-handler/https" = ["floorp.desktop"];
+      "x-scheme-handler/about" = ["floorp.desktop"];
+      "x-scheme-handler/unknown" = ["floorp.desktop"];
+      "image/jpeg" = ["org.gnome.gThumb.desktop"];
+      "image/png" = ["org.gnome.gThumb.desktop"];
+      "image/gif" = ["org.gnome.gThumb.desktop"];
+      "image/svg+xml" = ["org.gnome.gThumb.desktop"];
     };
-
   };
 
+  systemd.user.services.lock = {
+    Unit = {
+      Description = "Lock the screen on resume from suspend.";
+    };
+    Install = {
+      WantedBy = ["suspend.target"];
+    };
+    Service = {
+      ExecStart = "swaylock";
+      Type = "forking";
+    };
+  };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "24.05";
-}  
+}

@@ -47,8 +47,6 @@
 
     tuba
 
-    popsicle
-
     # heroic
     # webcord-vencord
 
@@ -72,12 +70,12 @@
     bitwarden
 
     valent
-    
+
     evolution
     neomutt
     w3m
     dante
 
-
+    glib
   ];
 }

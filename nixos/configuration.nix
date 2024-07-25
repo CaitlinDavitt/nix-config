@@ -7,8 +7,8 @@
   config,
   pkgs,
   gBar,
-  fenix,
-  nixpkgs-unstable,
+  # fenix,
+  # nixpkgs-unstable,
   # pkgs.unstable,
   ...
 }: {
@@ -30,13 +30,14 @@
   ];
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs gBar fenix outputs nixpkgs-unstable; };
+    # extraSpecialArgs = {inherit inputs gBar fenix outputs nixpkgs-unstable;};
+    extraSpecialArgs = {inherit inputs gBar outputs;};
     # extraSpecialArgs = { inherit inputs gBar pkgs-unstable fenix outputs; };
     users = {
-        # Import your home-manager configuration
-        caitlin = import ../home-manager/home.nix;
+      # Import your home-manager configuration
+      caitlin = import ../home-manager/home.nix;
     };
-    backupFileExtension="backup-1-";
+    backupFileExtension = "bak-";
   };
 
   nixpkgs = {
@@ -189,7 +190,6 @@
       playerctl
       ffmpeg
       ncmpcpp
-      mpd-mpris
       pfetch
       libnotify
       mako
@@ -201,7 +201,6 @@
       roboto
       material-icons
       material-design-icons
-      capitaine-cursors-themed
       papirus-icon-theme
       jq
       jaq
@@ -258,7 +257,6 @@
     QT_STYLE_OVERRIDE = "kvantum";
     # XCURSOR_THEME = "Bibata-Modern-Classic";
     # XCURSOR_SIZE = "18";
-
   };
 
   environment.systemPackages = with pkgs; [
@@ -436,8 +434,7 @@
     };
   };
 
-
-  services.auto-cpufreq.enable = true;
+  services.auto-cpufreq.enable = false;
   services.auto-cpufreq.settings = {
     battery = {
       governor = "powersave";
@@ -595,14 +592,14 @@
   networking.networkmanager.enable = true;
 
   services = {
-  logind.extraConfig = ''
-    HandlePowerKey=suspend-then-hibernate
-    HandlePowerKeyLongPress=poweroff
-    HandleLidSwitch=ignore
-    HandleLidSwitchExternalPower=ignore
-    HandleLidSwitchDocked=ignore
-    HoldoffTimeoutSec=5s
-  '';
+    logind.extraConfig = ''
+      HandlePowerKey=suspend-then-hibernate
+      HandlePowerKeyLongPress=poweroff
+      HandleLidSwitch=ignore
+      HandleLidSwitchExternalPower=ignore
+      HandleLidSwitchDocked=ignore
+      HoldoffTimeoutSec=5s
+    '';
   };
   systemd = {
     sleep.extraConfig = "HibernateDelaySec=1h";
