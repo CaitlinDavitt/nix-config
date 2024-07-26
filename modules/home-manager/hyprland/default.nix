@@ -10,7 +10,8 @@
     ./hyprland.nix
     ./swaync.nix
     ./waybar.nix
-    ./swaylock
-    ./swayidle
+    ./swaylock.nix
+    ./swayidle.nix
+    ./wlogout.nix
   ];
 }

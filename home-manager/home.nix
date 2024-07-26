@@ -106,6 +106,9 @@
       gtk = {
         enable = true;
       };
+      waybar = {
+        enable = false;
+      };
     };
     cursor = {
       name = "Bibata-Modern-Classic";

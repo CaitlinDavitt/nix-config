@@ -12,9 +12,11 @@
     fftw.dev
     cava
   ];
+
   programs.waybar = {
     enable = true;
     package = pkgs.unstable.waybar;
+    systemd.enable = true;
     settings = {
       mainBar = {
         layer = "top";
@@ -32,19 +34,23 @@
         ];
         modules-center = ["custom/waybar-mpris" "cava"];
         modules-right = [
-          "idle_inhibitor"
+          # "idle_inhibitor"
           "backlight"
           "custom/weather"
-          "bluetooth"
+          # "bluetooth"
           "pulseaudio/slider"
           "pulseaudio"
           "cpu"
+          "memory"
           "disk"
           "temperature"
+          "power-profiles-daemon"
           "battery"
           "network"
+          "custom/notification"
           "clock"
-          # "custom/power"
+          "custom/power"
+          "w"
         ];
 
         # "sway/workspaces" = {
@@ -86,7 +92,7 @@
         };
 
         "hyprland/window" = {
-          max-length = 30;
+          max-length = 60;
           format = "{}";
           escape = true;
         };
@@ -104,13 +110,13 @@
 
         cava = {
           # "cava_config" = "$XDG_CONFIG_HOME/cava/cava.conf";
-          "framerate" = 30;
+          "framerate" = 50;
           "autosens" = 1;
-          "sensitivity" = 100;
+          "sensitivity" = 1;
           "bars" = 14;
           "lower_cutoff_freq" = 50;
           "higher_cutoff_freq" = 10000;
-          "method" = "pulse";
+          "method" = "pipewire";
           "source" = "auto";
           "stereo" = true;
           "reverse" = false;
@@ -125,10 +131,31 @@
           };
         };
 
+        "custom/notification" = {
+          "tooltip" = false;
+          "format" = "{icon}";
+          "format-icons" = {
+            "notification" = "<span foreground='red'><sup></sup></span>";
+            "none" = " ";
+            "dnd-notification" = "<span foreground='red'><sup></sup></span>";
+            "dnd-none" = " ";
+            "inhibited-notification" = "<span foreground='red'><sup></sup></span>";
+            "inhibited-none" = " ";
+            "dnd-inhibited-notification" = "<span foreground='red'><sup></sup></span>";
+            "dnd-inhibited-none" = " ";
+          };
+          "return-type" = "json";
+          "exec-if" = "which swaync-client";
+          "exec" = "swaync-client -swb";
+          "on-click" = "swaync-client -t -sw";
+          "on-click-right" = "swaync-client -d -sw";
+          "escape" = true;
+        };
+
         clock = {
           timezone = "America/Chicago";
           tooltip-format = "<big>{:%B %Y}</big>\n <tt><small>{calendar}</small></tt>";
-          format = "  {:%H:%M}";
+          format = "{:%H:%M}";
           format-alt = "  {:%a %b %d, %G}";
           interval = 1;
         };
@@ -142,8 +169,8 @@
         };
 
         backlight = {
-          "format" = "{percent}% {icon}";
-          "format-icons" = [""];
+          "format" = "{icon}{percent}%";
+          "format-icons" = [" "];
           "interval" = 0.2;
           # "device" = "intel_backlight";
           "on-scroll-down" = "exec ~/.config/hypr/scripts/brightness.sh --dec";
@@ -151,7 +178,7 @@
         };
 
         "custom/weather" = {
-          format = "{}";
+          format = " {}";
           tooltip = true;
           interval = 3600;
           exec = "exec ~/.config/hypr/scripts/waybar-wttr.sh";
@@ -196,18 +223,18 @@
 
         "cpu" = {
           "interval" = 5;
-          "format" = "  {usage}%";
+          "format" = " {usage}%";
           "on-click" = "kitty btop";
         };
 
         "memory" = {
           "interval" = 10;
-          "format" = "󰍛 {used:0.1f}G";
+          "format" = " {used:0.1f}G";
         };
 
         "disk" = {
           "interval" = 30;
-          "format" = "󰆼{free}";
+          "format" = "󰆼 {free}";
           "unit" = "GiB";
           "path" = "/";
         };
@@ -219,6 +246,18 @@
           # "format-critical"= "{icon} {temperatureC}°C";
           "format" = "{icon} {temperatureC}°C";
           "format-icons" = ["" "" ""];
+        };
+
+        "power-profiles-daemon" = {
+          "format" = "{icon}";
+          "tooltip-format" = "Power profile: {profile}\nDriver: {driver}";
+          "tooltip" = true;
+          "format-icons" = {
+            "default" = " ";
+            "performance" = " ";
+            "balanced" = " ";
+            "power-saver" = " ";
+          };
         };
 
         "battery" = {
@@ -246,13 +285,13 @@
           "tooltip-format-wifi" = "{essid} ({signalStrength}%) ";
           "tooltip-format-ethernet" = "{ifname} ";
           "tooltip-format-disconnected" = "Disconnected";
-          "max-length" = 50;
+          "max-length" = 20;
           "on-click-right" = "exec ~/.config/hypr/scripts/wofi_wifi";
         };
         "custom/power" = {
-          "format" = "󰐥";
-          "on-click" = "exec ~/.config/hypr/scripts/powermenu.sh";
-          "on-click-right" = "killall tofi";
+          "format" = " ";
+          "on-click" = "wlogout";
+          # "on-click-right" = "killall tofi";
         };
       };
     };
@@ -273,11 +312,11 @@
       * {
         /* Installing `otf-font-awesome` is required for icons */
         font-family: "Fira Code", "Font Awesome 5 Free", Roboto, Helvetica, Arial, sans-serif;
-        font-size: 15px;
+        font-size: 13px;
       }
 
       /* > The bar itself */
-      mainBar#waybar {
+      window#waybar {
         background-color: transparent;
         color: @text;
         border-radius: 0px 0px 5px 5px;
@@ -289,7 +328,7 @@
         border-style: solid;
         box-shadow: 3px 3px 3px 1px rgba(10, 10, 12, 0.7);
         background-color: @bg;
-        border-radius: 20px;
+        border-radius: 12px;
         padding: 2px 5px 2px 5px;
       }
       .modules-left {
@@ -297,7 +336,7 @@
         border-style: solid;
         box-shadow: 3px 3px 3px 1px rgba(10, 10, 12, 0.7);
         background-color: @bg;
-        border-radius: 20px;
+        border-radius: 12px;
         padding: 2px 5px 2px 5px;
       }
       .modules-center {
@@ -305,7 +344,7 @@
         border-style: solid;
         box-shadow: 3px 3px 3px 1px rgba(10, 10, 12, 0.7);
         background-color: @bg;
-        border-radius: 20px;
+        border-radius: 12px;
         padding: 5px;
         padding: 0px 5px 0px 5px;
         padding: 2px 5px 2px 5px;
@@ -332,6 +371,7 @@
       /* A lot of things here */
       #clock,
       #mpris,
+      #power-profiles-daemon,
       #battery,
       #cpu,
       #disk,
@@ -404,12 +444,12 @@
 
       /* > Backlight */
       #backlight {
-        color: @yellow;
+        color: @orange;
       }
 
       /* > Weather */
       #custom-weather {
-        color: @yellow;
+        color: @orange;
       }
 
       /* > Bluetooth */
@@ -419,7 +459,7 @@
 
       /* > Pulseaudio */
       #pulseaudio {
-        color: @green;
+        color: @yellow;
       }
       #pulseaudio.muted {
         border-width: 1px;
@@ -438,8 +478,8 @@
       }
 
       #pulseaudio-slider trough {
-        min-height: 8px;
-        min-width: 60px;
+        min-height: 5px;
+        min-width: 50px;
         border-radius: 5px;
         background-color: @bg_dim;
       }
@@ -447,24 +487,24 @@
       #pulseaudio-slider highlight {
         min-width: 5px;
         border-radius: 5px;
-        background-color: @green;
+        background-color: @yellow;
       }
 
       /* > CPU
          >- Shows CPU load. */
       #cpu {
-        color: @blue;
+        color: @green;
       }
 
       /* > Disk
          >- Shows Disk free. */
       #disk {
-        color: @blue;
+        color: @green;
       }
 
       /* > Memory */
       #memory {
-        color: @text;
+        color: @green;
       }
 
       /* > Temperature
@@ -479,10 +519,14 @@
         border-radius: 5px;
       }
 
+      #power-profiles-daemon {
+        color: @aqua;
+      }
+
       /* > Battery
          >- Shows battery level. */
       #battery {
-        color: @purple;
+        color: @aqua;
       }
       /* >> Charging */
       #battery.charging,
@@ -533,9 +577,13 @@
 
       /* > Power Menu */
       #custom-power {
-        color: @text;
-        font-size: 18px;
-        padding-right: 5px;
+        color: @purple;
+        /* font-size: 18px; */
+        /* padding-right: 10px; */
+      }
+
+      #custom-notification {
+        color: @purple;
       }
 
       /* > Tooltips */
