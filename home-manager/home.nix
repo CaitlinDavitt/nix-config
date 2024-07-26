@@ -7,7 +7,7 @@
   config,
   pkgs,
   gBar,
-  fenix,
+  # fenix,
   ...
 }: {
   # You can import other home-manager modules here
@@ -192,16 +192,37 @@
     };
   };
 
-  systemd.user.services.lock = {
-    Unit = {
-      Description = "Lock the screen on resume from suspend.";
+  lib.mkDefault.systemd.user.services = {
+    lock = {
+      Unit = {
+        Description = "Lock the screen on resume from suspend.";
+      };
+      Install = {
+        WantedBy = ["suspend.target"];
+      };
+      Service = {
+        ExecStart = "/home/caitlin/.nix-profile/bin/swaylock";
+        Type = "forking";
+      };
     };
-    Install = {
-      WantedBy = ["suspend.target"];
-    };
-    Service = {
-      ExecStart = "swaylock";
-      Type = "forking";
+
+    swaync = {
+      Unit = {
+        After = "graphical-session-pre.target";
+        ConditionEnvironment = "WAYLAND-DISPLAY";
+        Description = "Sway notifications";
+        Documentation = "https://github.com/ErikReider/SwayNotificationCenter";
+        PartOf = "graphical-session.target";
+      };
+      Install = {
+        WantedBy = ["graphical-session.target"];
+      };
+      Service = {
+        BusName = "org.freedesktop.Notifications";
+        ExecStart = "/home/caitlin/.nix-profile/bin/mpd-notification";
+        Restart = "on-failure";
+        Type = "dbus";
+      };
     };
   };
 

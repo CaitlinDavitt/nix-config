@@ -86,7 +86,7 @@
     settings.auto-optimise-store = true;
 
     # Opinionated: disable channels
-    channel.enable = true;
+    channel.enable = false;
 
     # Opinionated: make flake registry and nix path match flake inputs
     registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
@@ -255,8 +255,8 @@
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     QT_STYLE_OVERRIDE = "kvantum";
-    # XCURSOR_THEME = "Bibata-Modern-Classic";
-    # XCURSOR_SIZE = "18";
+    XCURSOR_THEME = "Bibata-Modern-Classic";
+    XCURSOR_SIZE = "18";
   };
 
   environment.systemPackages = with pkgs; [
@@ -537,13 +537,18 @@
     enable = true;
   };
 
+  # programs.hyprland = {
+  #   enable = true;
+  #   xwayland.enable = true;
+  #   package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+  # };
+
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    package = pkgs.hyprland;
   };
-
-  services.fwupd.enable = true;
+  #  services.fwupd.enable = true;
   services.chrony.enable = true;
 
   environment.binsh = "${pkgs.dash}/bin/dash";

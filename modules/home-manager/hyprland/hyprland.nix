@@ -4,12 +4,12 @@
   ...
 }: {
   home.packages = with pkgs.unstable; [
-    waybar
-    waybar-mpris
-    wttrbar
+    # waybar
+    # waybar-mpris
+    # wttrbar
   ];
 
-  services = {
-    swaync.enable = true;
-  };
+  # services = {
+  #   swaync.enable = true;
+  # };
 }
