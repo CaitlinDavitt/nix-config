@@ -7,7 +7,7 @@
     # waybar
     # waybar-mpris
     # wttrbar
-    wlogout
+    # wlogout
   ];
 
   # services = {
