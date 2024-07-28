@@ -4,7 +4,7 @@
   ...
 }: {
   home.packages = with pkgs.unstable; [
-    wlogout
+    # wlogout
   ];
   programs.wlogout = {
     enable = true;
@@ -31,13 +31,13 @@
         "label" = "shutdown";
         "action" = "systemctl poweroff";
         "text" = "Shutdown";
-        "keybind" = "s";
+        "keybind" = "p";
       }
       {
         "label" = "suspend";
         "action" = "systemctl suspend";
         "text" = "Suspend";
-        "keybind" = "u";
+        "keybind" = "s";
       }
       {
         "label" = "reboot";
@@ -48,6 +48,19 @@
     ];
 
     style = ''
+      @define-color bg     #2D353B;
+      @define-color bg_dim #232A2E;
+
+      @define-color text     #d3c6aa;
+
+      @define-color red       #E67E80;
+      @define-color orange    #E69875;
+      @define-color yellow    #DBBC7F;
+      @define-color green     #A7C080;
+      @define-color blue      #7FBBB3;
+      @define-color aqua      #83C092;
+      @define-color purple    #D699B6;
+
       * {
       	background-image: none;
       	box-shadow: none;
@@ -58,60 +71,55 @@
       }
 
       button {
-          border-radius: 0;
-          border-color: black;
-      	text-decoration-color: #FFFFFF;
-          color: #FFFFFF;
-      	background-color: #1E1E1E;
+        border-radius: 5px;
+        margin: 10px;
+        border-color: @fg;
+      	text-decoration-color: @fg;
+        color: @fg;
+      	background-color: @bg;
       	border-style: solid;
       	border-width: 1px;
       	background-repeat: no-repeat;
       	background-position: center;
       	background-size: 25%;
+        font-size: 25px;
       }
 
       button:focus, button:active, button:hover {
-      	background-color: #3700B3;
+      	background-color: @bg_dim;
       	outline-style: none;
       }
 
       #lock {
-          background-image: image(url("/usr/share/wlogout/icons/lock.png"), url("/usr/local/share/wlogout/icons/lock.png"));
+          color: @red;
+          background-image: image(url("/home/caitlin/.config/wlogout/icons/lock.png"), url("/usr/local/share/wlogout/icons/lock.png"));
       }
 
       #logout {
-          background-image: image(url("/usr/share/wlogout/icons/logout.png"), url("/usr/local/share/wlogout/icons/logout.png"));
+          color: @orange;
+          background-image: image(url("/home/caitlin/.config/wlogout/icons/logout.png"), url("/usr/local/share/wlogout/icons/logout.png"));
       }
 
       #suspend {
-          background-image: image(url("/usr/share/wlogout/icons/suspend.png"), url("/usr/local/share/wlogout/icons/suspend.png"));
+          color: @yellow;
+          background-image: image(url("/home/caitlin/.config/wlogout/icons/suspend.png"), url("/usr/local/share/wlogout/icons/suspend.png"));
       }
 
       #hibernate {
-          background-image: image(url("/usr/share/wlogout/icons/hibernate.png"), url("/usr/local/share/wlogout/icons/hibernate.png"));
+          color: @green;
+          background-image: image(url("/home/caitlin/.config/wlogout/icons/hibernate.png"), url("/usr/local/share/wlogout/icons/hibernate.png"));
       }
 
       #shutdown {
-          background-image: image(url("/usr/share/wlogout/icons/shutdown.png"), url("/usr/local/share/wlogout/icons/shutdown.png"));
+          color: @blue;
+          background-image: image(url("/home/caitlin/.config/wlogout/icons/shutdown.png"), url("/usr/local/share/wlogout/icons/shutdown.png"));
       }
 
       #reboot {
-          background-image: image(url("/usr/share/wlogout/icons/reboot.png"), url("/usr/local/share/wlogout/icons/reboot.png"));
+          color: @purple;
+          background-image: image(url("/home/caitlin/.config/wlogout/icons/reboot.png"), url("/usr/local/share/wlogout/icons/reboot.png"));
       }
+
     '';
   };
-
-  # services.swayidle = {
-  #   enable = true;
-  #   events = [
-  #     {
-  #       event = "before-sleep";
-  #       command = "${pkgs.swaylock}/bin/swaylock -f";
-  #     }
-  #     {
-  #       event = "lock";
-  #       command = "${pkgs.swaylock}/bin/swaylock -f";
-  #     }
-  #   ];
-  # };
 }

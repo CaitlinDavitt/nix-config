@@ -13,5 +13,6 @@
     ./swaylock.nix
     ./swayidle.nix
     ./wlogout.nix
+    ./fuzzel.nix
   ];
 }

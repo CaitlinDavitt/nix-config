@@ -112,6 +112,7 @@
       }
       .notification-content .image {
         border-radius: 0px;
+        padding-right: 7px;
       }
 
       .close-button {

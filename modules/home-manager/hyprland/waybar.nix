@@ -154,9 +154,9 @@
 
         clock = {
           timezone = "America/Chicago";
-          tooltip-format = "<big>{:%B %Y}</big>\n <tt><small>{calendar}</small></tt>";
+          tooltip-format = "{:%Y-%m-%d}";
           format = "{:%H:%M}";
-          format-alt = "  {:%a %b %d, %G}";
+          # format-alt = "  {:%a %b %d, %G}";
           interval = 1;
         };
 
@@ -444,12 +444,12 @@
 
       /* > Backlight */
       #backlight {
-        color: @orange;
+        color: @red;
       }
 
       /* > Weather */
       #custom-weather {
-        color: @orange;
+        color: @red;
       }
 
       /* > Bluetooth */
@@ -459,7 +459,7 @@
 
       /* > Pulseaudio */
       #pulseaudio {
-        color: @yellow;
+        color: @orange;
       }
       #pulseaudio.muted {
         border-width: 1px;
@@ -487,13 +487,13 @@
       #pulseaudio-slider highlight {
         min-width: 5px;
         border-radius: 5px;
-        background-color: @yellow;
+        background-color: @orange;
       }
 
       /* > CPU
          >- Shows CPU load. */
       #cpu {
-        color: @green;
+        color: @yellow;
       }
 
       /* > Disk
@@ -504,13 +504,13 @@
 
       /* > Memory */
       #memory {
-        color: @green;
+        color: @yellow;
       }
 
       /* > Temperature
          >- Shows the temperature of a thermal zone in /sys/class/thermal/ */
       #temperature {
-        color: @aqua;
+        color: @green;
       }
       #temperature.critical {
         border-width: 1px;
