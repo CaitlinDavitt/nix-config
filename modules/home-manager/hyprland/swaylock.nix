@@ -22,6 +22,7 @@
       timestr = "%k:%M";
       ignore-empty-password = false;
       indicator-caps-lock = true;
+      grace = 1;
     };
   };
 }

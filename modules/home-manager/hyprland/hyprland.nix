@@ -8,6 +8,7 @@
     # waybar-mpris
     # wttrbar
     # wlogout
+    networkmanager_dmenu
   ];
 
   # services = {

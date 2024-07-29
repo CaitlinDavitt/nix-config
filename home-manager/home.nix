@@ -109,6 +109,9 @@
       waybar = {
         enable = false;
       };
+      fuzzel = {
+        enable = false;
+      };
     };
     cursor = {
       name = "Bibata-Modern-Classic";

@@ -68,7 +68,7 @@
       };
     };
     style = ''
-              @define-color cc-bg #2d353b;
+      @define-color cc-bg #2d353b;
       @define-color noti-border-color #2d353b;
       @define-color noti-bg #343f44;
       @define-color noti-bg-darker #343f44;
