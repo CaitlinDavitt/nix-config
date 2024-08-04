@@ -73,6 +73,7 @@
 
     evolution
     neomutt
+    at
     w3m
     dante
 

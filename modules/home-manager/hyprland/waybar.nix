@@ -50,7 +50,6 @@
           "custom/notification"
           "clock"
           "custom/power"
-          "w"
         ];
 
         # "sway/workspaces" = {
@@ -133,7 +132,7 @@
 
         "custom/notification" = {
           "tooltip" = false;
-          "format" = "{icon}";
+          "format" = "{icon}{}";
           "format-icons" = {
             "notification" = "<span foreground='red'><sup></sup></span>";
             "none" = " ";
@@ -154,10 +153,24 @@
 
         clock = {
           timezone = "America/Chicago";
-          tooltip-format = "{:%Y-%m-%d}";
-          format = "{:%H:%M}";
+          tooltip-format = "  {:%Y-%m-%d}";
+          # tooltip-format = "<tt><small>{calendar}</small></tt>";
+          # format = "{:%H:%M}";
           # format-alt = "  {:%a %b %d, %G}";
           interval = 1;
+          calendar = {
+            "mode" = "year";
+            "mode-mon-col" = 3;
+            "weeks-pos" = "right";
+            "on-scroll" = 1;
+            "format" = {
+              "months" = "<span color='#ffead3'><b>{}</b></span>";
+              "days" = "<span color='#ecc6d9'><b>{}</b></span>";
+              "weeks" = "<span color='#99ffdd'><b>W{}</b></span>";
+              "weekdays" = "<span color='#ffcc66'><b>{}</b></span>";
+              "today" = "<span color='#ff6699'><b><u>{}</u></b></span>";
+            };
+          };
         };
 
         idle_inhibitior = {
@@ -193,7 +206,7 @@
           "tooltip-format" = "{controller_alias}\t{controller_address}";
           "tooltip-format-connected" = "{controller_alias}\t{controller_address}\n\n{device_enumerate}";
           "tooltip-format-enumerate-connected" = "{device_alias}\t{device_address}";
-          "on-click" = "$HOME/.config/hypr/scripts/tofi_blue";
+          "on-click" = "$HOME/.config/hypr/scripts/fuzzel_blue";
         };
 
         "pulseaudio" = {
@@ -214,6 +227,7 @@
             "default" = ["󰕿" "󰖀" "󰕾"];
           };
           "on-click" = "pavucontrol";
+          "on-click-right" = "$HOME/.config/hypr/scripts/fuzzel_blue";
         };
         "pulseaudio/slider" = {
           "min" = 0;
@@ -250,6 +264,7 @@
 
         "power-profiles-daemon" = {
           "format" = "{icon}";
+          "on-click-right" = "$HOME/.config/hypr/scripts/powerprofile.sh";
           "tooltip-format" = "Power profile: {profile}\nDriver: {driver}";
           "tooltip" = true;
           "format-icons" = {
@@ -286,12 +301,11 @@
           "tooltip-format-ethernet" = "{ifname} ";
           "tooltip-format-disconnected" = "Disconnected";
           "max-length" = 20;
-          "on-click-right" = "exec ~/.config/hypr/scripts/wofi_wifi";
+          "on-click-right" = "exec networkmanager_dmenu";
         };
         "custom/power" = {
           "format" = " ";
           "on-click" = "wlogout";
-          # "on-click-right" = "killall tofi";
         };
       };
     };
@@ -402,7 +416,16 @@
 
       #window,
       #workspaces {
-        margin: 4px 2px;
+        /*margin: 2px 2px;*/
+        color: @text;
+      }
+
+      #custom-waybar-mpris {
+        color: @text;
+      }
+
+      #cava {
+        color: @text;
       }
 
       /* If workspaces is the leftmost module, omit left margin */
@@ -444,12 +467,12 @@
 
       /* > Backlight */
       #backlight {
-        color: @red;
+        color: @orange;
       }
 
       /* > Weather */
       #custom-weather {
-        color: @red;
+        color: @orange;
       }
 
       /* > Bluetooth */
@@ -459,7 +482,7 @@
 
       /* > Pulseaudio */
       #pulseaudio {
-        color: @orange;
+        color: @yellow;
       }
       #pulseaudio.muted {
         border-width: 1px;
@@ -487,30 +510,30 @@
       #pulseaudio-slider highlight {
         min-width: 5px;
         border-radius: 5px;
-        background-color: @orange;
+        background-color: @yellow;
       }
 
       /* > CPU
          >- Shows CPU load. */
       #cpu {
-        color: @yellow;
+        color: @green;
       }
 
       /* > Disk
          >- Shows Disk free. */
       #disk {
-        color: @green;
+        color: @aqua;
       }
 
       /* > Memory */
       #memory {
-        color: @yellow;
+        color: @green;
       }
 
       /* > Temperature
          >- Shows the temperature of a thermal zone in /sys/class/thermal/ */
       #temperature {
-        color: @green;
+        color: @aqua;
       }
       #temperature.critical {
         border-width: 1px;
@@ -520,13 +543,13 @@
       }
 
       #power-profiles-daemon {
-        color: @aqua;
+        color: @blue;
       }
 
       /* > Battery
          >- Shows battery level. */
       #battery {
-        color: @aqua;
+        color: @blue;
       }
       /* >> Charging */
       #battery.charging,

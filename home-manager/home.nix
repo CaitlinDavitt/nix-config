@@ -112,6 +112,9 @@
       fuzzel = {
         enable = false;
       };
+      kitty = {
+        enable = false;
+      };
     };
     cursor = {
       name = "Bibata-Modern-Classic";

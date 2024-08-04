@@ -6,12 +6,12 @@
   home.packages = with pkgs.unstable; [
     # wlogout
   ];
-    xdg.configFile."wlogout/icons/lock.png".source = ./icons/lock.png;
-    xdg.configFile."wlogout/icons/logout.png".source = ./icons/logout.png;
-    xdg.configFile."wlogout/icons/suspend.png".source = ./icons/suspend.png;
-    xdg.configFile."wlogout/icons/hibernate.png".source = ./icons/hibernate.png;
-    xdg.configFile."wlogout/icons/reboot.png".source = ./icons/reboot.png;
-    xdg.configFile."wlogout/icons/shutdown.png".source = ./icons/shutdown.png;
+  xdg.configFile."wlogout/icons/lock.png".source = ./icons/lock.png;
+  xdg.configFile."wlogout/icons/logout.png".source = ./icons/logout.png;
+  xdg.configFile."wlogout/icons/suspend.png".source = ./icons/suspend.png;
+  xdg.configFile."wlogout/icons/hibernate.png".source = ./icons/hibernate.png;
+  xdg.configFile."wlogout/icons/reboot.png".source = ./icons/reboot.png;
+  xdg.configFile."wlogout/icons/shutdown.png".source = ./icons/shutdown.png;
   programs.wlogout = {
     enable = true;
     layout = [
@@ -99,6 +99,7 @@
       #lock {
           color: @red;
           background-image: image(url("/home/caitlin/.config/wlogout/icons/lock.png"), url("/usr/local/share/wlogout/icons/lock.png"));
+
       }
 
       #logout {

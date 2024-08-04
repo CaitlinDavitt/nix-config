@@ -181,8 +181,6 @@
       #xdg-desktop-portal-wlr
       xdg-user-dirs
       # eww
-      wofi
-      tofi
       dash
       pavucontrol
       mpd
@@ -501,10 +499,13 @@
     startWhenNeeded = true; # systemd feature: only start MPD service upon connection to its socket
   };
 
-  services.blueman.enable = true;
-  services.upower.enable = true;
-  services.gvfs.enable = true;
-  services.power-profiles-daemon.enable = true;
+  services = {
+    blueman.enable = true;
+    upower.enable = true;
+    gvfs.enable = true;
+    power-profiles-daemon.enable = true;
+    atd.enable = true;
+  };
 
   networking.firewall.enable = false;
   sound.enable = true;

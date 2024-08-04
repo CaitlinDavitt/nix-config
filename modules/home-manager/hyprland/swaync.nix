@@ -29,6 +29,19 @@
       timeout-low = 2;
       timeout-critical = 6;
 
+      notification-visibility = {
+        mpd-notification = {
+          app-name = "Mpd-notification";
+          state = "ignored";
+          urgency = "low";
+        };
+        networkmanager-dmenu = {
+          app-name = "Networkmanager-dmenu";
+          state = "transient";
+          urgency = "low";
+        };
+      };
+
       fit-to-screen = false;
       keyboard-shortcuts = true;
       image-visibility = "when-available";

@@ -4,11 +4,7 @@
   ...
 }: {
   home.packages = with pkgs.unstable; [
-    # waybar
-    # waybar-mpris
-    # wttrbar
-    # wlogout
-    # fuzzel
+    networkmanager_dmenu
   ];
 
   programs.fuzzel = {
