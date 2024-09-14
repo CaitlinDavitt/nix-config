@@ -123,7 +123,7 @@
     };
     fonts = {
       monospace = {
-        name = "Fira Code";
+        name = "GeistMono Nerd Font";
         package = pkgs.fira-code;
       };
 
@@ -149,6 +149,21 @@
     };
   };
 
+  home.file = {
+    ".cache/colors.json".source = config.lib.stylix.colors {
+      template = builtins.readFile ../templates/pywal.json.mustache;
+      extension = ".json";
+    };
+  };
+  home.activation =
+    #ALSO ACTIVATES AT REBOOT
+    {
+      generate_pywal_colors = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        $DRY_RUN_CMD ${pkgs.unstable.pywal16}/bin/wal -f ~/.cache/colors.json -s -t
+        $DRY_RUN_CMD ${pkgs.unstable.pywal16}/bin/wal -R -s -t
+        $DRY_RUN_CMD ${pkgs.unstable.pywalfox-native}/bin/pywalfox update
+      '';
+    };
   #   lib.mkForce.home.pointerCursor = {
   #     gtk.enable = true;
   #     package = pkgs.bibata-cursors;
@@ -178,26 +193,50 @@
     enable = true;
 
     associations.added = {
-      "text/html" = ["floorp.desktop"];
-      "x-scheme-handler/http" = ["floorp.desktop"];
-      "x-scheme-handler/https" = ["floorp.desktop"];
-      "x-scheme-handler/about" = ["floorp.desktop"];
-      "x-scheme-handler/unknown" = ["floorp.desktop"];
+      # "text/html" = ["floorp.desktop"];
+      # "x-scheme-handler/http" = ["floorp.desktop"];
+      # "x-scheme-handler/https" = ["floorp.desktop"];
+      # "x-scheme-handler/about" = ["floorp.desktop"];
+      # "x-scheme-handler/unknown" = ["floorp.desktop"];
       "image/jpeg" = ["org.gnome.gThumb.desktop"];
       "image/png" = ["org.gnome.gThumb.desktop"];
       "image/svg+xml" = ["org.gnome.gThumb.desktop"];
+      "video/H264" = ["Celluloid.desktop"];
+      "video/mp4" = ["Celluloid.desktop"];
+      "video/webm" = ["Celluloid.desktop"];
+      "video/x-matroska" = ["Celluloid.desktop"];
+      "application/pdf" = ["org.gnome.Evince.desktop"];
+      "application/json" = ["zen.desktop"];
+      "application/x-xpinstall" = ["zen.desktop"];
+      "application/xhtml+xml" = ["zen.desktop"];
+      "text/html" = ["zen.desktop"];
+      "text/xml" = ["zen.desktop"];
+      "x-scheme-handler/http" = ["zen.desktop"];
+      "x-scheme-handler/https" = ["zen.desktop"];
     };
 
     defaultApplications = {
-      "text/html" = ["floorp.desktop"];
-      "x-scheme-handler/http" = ["floorp.desktop"];
-      "x-scheme-handler/https" = ["floorp.desktop"];
-      "x-scheme-handler/about" = ["floorp.desktop"];
-      "x-scheme-handler/unknown" = ["floorp.desktop"];
+      # "text/html" = ["floorp.desktop"];
+      # "x-scheme-handler/http" = ["floorp.desktop"];
+      # "x-scheme-handler/https" = ["floorp.desktop"];
+      # "x-scheme-handler/about" = ["floorp.desktop"];
+      # "x-scheme-handler/unknown" = ["floorp.desktop"];
       "image/jpeg" = ["org.gnome.gThumb.desktop"];
       "image/png" = ["org.gnome.gThumb.desktop"];
       "image/gif" = ["org.gnome.gThumb.desktop"];
       "image/svg+xml" = ["org.gnome.gThumb.desktop"];
+      "video/H264" = ["Celluloid.desktop"];
+      "video/mp4" = ["Celluloid.desktop"];
+      "video/webm" = ["Celluloid.desktop"];
+      "video/x-matroska" = ["Celluloid.desktop"];
+      "application/pdf" = ["org.gnome.Evince.desktop"];
+      "application/json" = ["zen.desktop"];
+      "application/x-xpinstall" = ["zen.desktop"];
+      "application/xhtml+xml" = ["zen.desktop"];
+      "text/html" = ["zen.desktop"];
+      "text/xml" = ["zen.desktop"];
+      "x-scheme-handler/http" = ["zen.desktop"];
+      "x-scheme-handler/https" = ["zen.desktop"];
     };
   };
 
@@ -218,7 +257,7 @@
     swaync = {
       Unit = {
         After = "graphical-session-pre.target";
-        ConditionEnvironment = "WAYLAND-DISPLAY";
+        # ConditionEnvironment = "WAYLAND-DISPLAY";
         Description = "Sway notifications";
         Documentation = "https://github.com/ErikReider/SwayNotificationCenter";
         PartOf = "graphical-session.target";

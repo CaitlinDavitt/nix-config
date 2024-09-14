@@ -25,7 +25,7 @@
     };
   };
   home.packages = with pkgs.unstable; [
-    waybar
+    # waybar
     waybar-mpris
     wttrbar
   ];

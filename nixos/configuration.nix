@@ -134,7 +134,7 @@
     extraGroups = ["networkmanager" "wheel" "video" "libvirtd" "docker" "lxd"];
     # extraGroups = [ "networkmanager" "wheel" "video" "libvirtd" "lxd"];
     packages = with pkgs; [
-      firefox
+      # firefox
       #brave
       neovim
       cinnamon.nemo
@@ -174,7 +174,7 @@
       imagemagick
       slurp
       grim
-      swayidle
+      # swayidle
       wlsunset
       # xdg-desktop-portal-hyprland
       # xdg-desktop-portal-gtk
@@ -191,12 +191,6 @@
       pfetch
       libnotify
       mako
-      noto-fonts-emoji
-      noto-fonts-cjk
-      corefonts
-      liberation_ttf
-      font-awesome
-      roboto
       material-icons
       material-design-icons
       papirus-icon-theme
@@ -234,9 +228,28 @@
     ];
   };
 
-  fonts.packages = with pkgs; [
-    (nerdfonts.override {fonts = ["FiraCode" "Noto" "NerdFontsSymbolsOnly"];})
-  ];
+  fonts = {
+    packages = with pkgs; [
+      (nerdfonts.override {fonts = ["FiraCode" "Noto" "Meslo" "SpaceMono" "NerdFontsSymbolsOnly" "GeistMono"];})
+      noto-fonts
+      noto-fonts-emoji
+      noto-fonts-cjk
+      dejavu_fonts
+      corefonts
+      liberation_ttf
+      font-awesome
+      roboto
+      ubuntu_font_family
+      meslo-lgs-nf
+    ];
+    fontconfig = {
+      defaultFonts = {
+        serif = ["Liberation Serif"];
+        sansSerif = ["Ubuntu"];
+        monospace = ["FiraCode Nerd Font"];
+      };
+    };
+  };
 
   environment.sessionVariables = rec {
     XDG_CACHE_HOME = "$HOME/.cache";
@@ -257,24 +270,27 @@
     XCURSOR_SIZE = "18";
   };
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = [
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #  wget
-    (python3.withPackages (ps:
-      with ps; [
-        pip
-        imaplib2
-        matplotlib
-        pandas
-        numpy
-      ]))
-
-    greetd.tuigreet
-    virt-manager
-    qemu
-    dash
-    exfatprogs
-    qt6.qtwayland
+    # pkgs.python3.withPackages
+    # (ps:
+    #   with ps; [
+    #     pip
+    #     imaplib2
+    #     matplotlib
+    #     pandas
+    #     numpy
+    #   ])
+    pkgs.greetd.tuigreet
+    pkgs.virt-manager
+    pkgs.qemu
+    pkgs.dash
+    pkgs.exfatprogs
+    pkgs.qt6.qtwayland
+    pkgs.sqlite
+    inputs.zen-browser.packages."x86_64-linux".default
+    # pkgs.wayfire
     # linux-firmware
   ];
 
@@ -423,7 +439,7 @@
   stylix = {
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/everforest.yaml";
-    image = "/dev/null";
+    image = "/home/caitlin/Downloads/waneella/Dark_Corners_waneella.webp";
 
     cursor = {
       name = "Bibata-Modern-Classic";
@@ -508,6 +524,7 @@
   };
 
   networking.firewall.enable = false;
+  # networking.nameservers = ["194.242.2.4" "1.1.1.1" "8.8.8.8"];
   sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -529,26 +546,36 @@
 
   security.pam.services.swaylock = {};
   security.pam.services.gtklock = {};
+  security.pam.services.hyprlock = {};
   services.fprintd.enable = true;
   # services.accounts-daemon.enable = true;
   # services.gnome.gnome-online-accounts.enable = true;
   services.gnome.gnome-keyring.enable = true;
   services.gnome.evolution-data-server.enable = true;
-  programs.waybar = {
-    enable = true;
-  };
-
-  # programs.hyprland = {
+  # programs.waybar = {
   #   enable = true;
-  #   xwayland.enable = true;
-  #   package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   # };
 
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
+    # package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     package = pkgs.hyprland;
+    # package = inputs.nixpkgs-unstable.legacyPackages.x86_64-linux.hyprland;
   };
+
+  # programs.hyprland = {
+  #   enable = true;
+  #   xwayland.enable = true;
+  #   package = pkgs.hyprland;
+  # };
+  # programs.hyprland = {
+  #   enable = true;
+  #   # set the flake package
+  #   package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+  #   # make sure to also set the portal package, so that they are in sync
+  #   portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+  # };
   #  services.fwupd.enable = true;
   services.chrony.enable = true;
 

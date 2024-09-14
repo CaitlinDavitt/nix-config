@@ -17,7 +17,7 @@
     layout = [
       {
         "label" = "lock";
-        "action" = "swaylock";
+        "action" = "loginctl lock-session";
         "text" = "Lock";
         "keybind" = "l";
       }
@@ -89,6 +89,7 @@
       	background-position: center;
       	background-size: 25%;
         font-size: 25px;
+        font-family: GeistMono Nerd Font;
       }
 
       button:focus, button:active, button:hover {

@@ -5,7 +5,7 @@
 }: {
   programs.swaylock = {
     enable = true;
-    package = pkgs.swaylock-effects;
+    package = pkgs.unstable.swaylock-effects;
     settings = {
       # color = "808080";
       font-size = 24;

@@ -15,17 +15,17 @@
     events = [
       {
         event = "before-sleep";
-        command = "${pkgs.swaylock}/bin/swaylock -f";
+        command = "/home/caitlin/.nix-profile/bin/swaylock -f";
       }
       {
         event = "lock";
-        command = "${pkgs.swaylock}/bin/swaylock -f";
+        command = "/home/caitlin/.nix-profile/bin/swaylock -f";
       }
     ];
     timeouts = [
       {
         timeout = 300;
-        command = "${pkgs.swaylock}/bin/swaylock -f";
+        command = "/home/caitlin/.nix-profile/bin/swaylock -f";
       }
       {
         timeout = 600;

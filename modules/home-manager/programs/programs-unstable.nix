@@ -36,16 +36,16 @@
     simplex-chat-desktop
     discord-screenaudio
 
-
     # mediawriter
 
     cosmic-term
 
-    waybar
+    # waybar
     xwaylandvideobridge
     mpd-notification
 
     # thunderbird
-
+    pywalfox-native
+    pywal16
   ];
 }

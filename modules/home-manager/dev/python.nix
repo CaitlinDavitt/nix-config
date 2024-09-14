@@ -26,6 +26,6 @@
         # mrjob
       ]))
     # hadoop
-    spark
+    # spark
   ];
 }

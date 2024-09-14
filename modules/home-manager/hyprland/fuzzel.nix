@@ -13,12 +13,12 @@
       main = {
         terminal = "${pkgs.kitty}/bin/kitty";
         layer = "overlay";
-        font = "FiraCode:weight=normal:size=5";
+        font = "GeistMono Nerd Font:weight=normal:size=5";
         width = 25;
         lines = 10;
         # height = 400;
         dpi-aware = "yes";
-        icon-thme = "Papirus-Dark";
+        icon-theme = "Papirus-Dark";
         anchor = "center";
       };
 

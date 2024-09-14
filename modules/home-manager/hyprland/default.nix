@@ -10,8 +10,11 @@
     ./hyprland.nix
     ./swaync.nix
     ./waybar.nix
-    ./swaylock.nix
-    ./swayidle.nix
+    # ./swaylock.nix
+    ./hyprlock.nix
+    # ./hyprlock.nix
+    # ./swayidle.nix
+    ./hypridle.nix
     ./wlogout.nix
     ./fuzzel.nix
   ];

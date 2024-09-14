@@ -60,12 +60,10 @@
 
     typst-lsp
 
-    floorp
+    # floorp
     openjdk17
 
     shotcut
-
-    pywal
 
     bitwarden
 
@@ -78,5 +76,7 @@
     dante
 
     glib
+
+    authenticator
   ];
 }

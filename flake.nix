@@ -18,13 +18,49 @@
     #   inputs.nixpkgs.follows = "nixpkgs-unstable";
     # };
 
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    #hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    # hyprland = {
+    #   type = "git";
+    #   url = "https://github.com/hyprwm/Hyprland";
+    #   submodules = true;
+    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # };
+
+    # aquamarine = {
+    #   type = "git";
+    #   url = "https://github.com/hyprwm/aquamarine";
+    #   ref = "refs/tags/v0.4.1";
+    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # };
+
+    # hyprland = {
+    #   type = "git";
+    #   url = "https://github.com/hyprwm/hyprland";
+    #   ref = "refs/tags/v0.43.0";
+    #   submodules = true;
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    #   inputs.aquamarine.follows = "aquamarine";
+    # };
+
+    # hyprland-plugins = {
+    #   url = "github:hyprwm/hyprland-plugins";
+    #   inputs.hyprland.follows = "hyprland";
+    # };
 
     gBar.url = "github:scorpion-26/gBar";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    stylix.url = "github:danth/stylix";
+    stylix = {
+      url = "github:danth/stylix/release-24.05";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
+
+    zen-browser.url = "github:ch4og/zen-browser-flake";
   };
 
   outputs = {
@@ -36,6 +72,7 @@
     gBar,
     stylix,
     nixos-hardware,
+    zen-browser,
     # nixpkgs-unstable,
     ...
   } @ inputs: let
@@ -75,7 +112,7 @@
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs gBar outputs;};
+        specialArgs = {inherit inputs gBar zen-browser outputs;};
         # specialArgs = {inherit inputs gBar fenix pkgs-unstable outputs;};
         modules = [
           # > Our main nixos configuration file <

@@ -325,7 +325,7 @@
 
       * {
         /* Installing `otf-font-awesome` is required for icons */
-        font-family: "Fira Code", "Font Awesome 5 Free", Roboto, Helvetica, Arial, sans-serif;
+        font-family: "GeistMono Nerd Font", "Font Awesome 5 Free", Roboto, Helvetica, Arial, sans-serif;
         font-size: 13px;
       }
 

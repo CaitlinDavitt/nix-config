@@ -32,7 +32,7 @@
       notification-visibility = {
         mpd-notification = {
           app-name = "Mpd-notification";
-          state = "ignored";
+          state = "transient";
           urgency = "low";
         };
         networkmanager-dmenu = {
@@ -93,7 +93,7 @@
       @define-color accent #a7c080;
 
       * {
-          font-family: Fira Code;
+          font-family: GeistMono Nerd Font;
           font-weight: bold;
       	  font-size: 14px
       }
@@ -146,11 +146,13 @@
       }
 
       .notification-action {
-          color: #ebdbb2;
-          border: 2px solid #85796f;
-          border-top: none;
-          border-radius: 0px;
+          margin: 5px;
+          padding : 4px;
+          color: #d3c6aa;
+          border: 2px solid #a7c080;
+          /*border-top: 0px solid red;*/
           background: #2d353b;
+          border-radius: 16px;
       }
 
       .notification-default-action:hover,

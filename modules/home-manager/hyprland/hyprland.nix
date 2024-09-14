@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  inputs,
   ...
 }: {
   home.packages = with pkgs.unstable; [
@@ -20,25 +21,32 @@
       Service = {
         Type = "oneshot";
         RemainAfterExit = "yes";
-        ExecStart = "/home/caitlin/.nix-profile/bin/swww-daemon";
+        ExecStart = "/home/caitlin/Scripts/wallpaper.sh";
       };
       Install = {
-        WantedBy = ["wayalnd-session.target"];
+        WantedBy = ["hyprland-session.target"];
       };
     };
   };
 
   wayland.windowManager.hyprland = {
     enable = true;
-    package = pkgs.unstable.hyprland;
-    systemd.enable = true;
+    # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    package = pkgs.hyprland;
+    # package = inputs.nixpkgs-unstable.legacyPackages.x86_64-linux.hyprland;
+
+    # portal = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    # portal = pkgs.xdg-desktop-portal-hyprland;
+    # systemd.enable = true;
     xwayland.enable = true;
-    # wayland.windowManager.hyprland.plugins = [
-    # pkgs.unstable.hyprlandPlugins.hyprspace
-    # ];
+    plugins = [
+      pkgs.hyprlandPlugins.hyprexpo
+      # inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprexpo
+      # inputs.nixpkgs-unstable.legacyPackages.x86_64-linux.hyprlandPlugins.hyprspace
+    ];
 
     extraConfig = ''
-          #-- Monitor Settings ------------------------------------------
+      #-- Monitor Settings ------------------------------------------
       # monitor = DP-3, highres, auto, 1
 
       monitor = eDP-1, 2256x1504@60,0x0, 1.175
@@ -58,16 +66,18 @@
       workspace = 9, monitor DP-1
       workspace = 10, monitor DP-1
 
-
+      debug {
+        disable_logs = false
+      }
       #-- Input ----------------------------------------------------
       # Configure mouse and touchpad here.
       input {
-        kb_layout = de
-        kb_variant = us
-        kb_model =
-        kb_options =
-        kb_rules =
-        follow_mouse = 1#2E3235
+        kb_layout = us
+        #kb_variant =
+        #kb_model =
+        #kb_options =
+        #kb_rules =
+        follow_mouse = 1
         natural_scroll = 0
         #force_no_accel = 0
         left_handed = false
@@ -96,7 +106,7 @@
       #-- Misc Settings --------------------------------------------
       misc {
         vfr = true
-        vrr = 1
+        vrr = 0
         disable_hyprland_logo = true
         disable_splash_rendering = true
         mouse_move_enables_dpms = true
@@ -129,7 +139,7 @@
         sensitivity = 1.5
       	apply_sens_to_raw = 0
 
-        gaps_in = 2
+        gaps_in = 3
         gaps_out = 2
 
         border_size = 3
@@ -163,7 +173,7 @@
       #-- Decoration ----------------------------------------------------
       # Decoration settings like Rounded Corners, Opacity, Blur, etc.
       decoration {
-        rounding = 14
+        rounding = 12
         # multisample_edges = 4
 
         active_opacity = 1
@@ -199,9 +209,11 @@
 
       #-- Master -----------------------------------------------------
       master {
-          no_gaps_when_only = true
-          # new_is_master = false
-          # new_status=slave
+        # new_is_master = tru
+        # new_status=slave
+        new_status = inherit
+        no_gaps_when_only = 1
+        special_scale_factor = .9
       }
 
       #-- Plugins ----------------------------------------------------
@@ -209,35 +221,25 @@
           # hyprbars {
           #     # config
           # }
+
+          overview {
+            workspace_swipe_fingers = 3
+          }
+
+           hyprexpo {
+            columns = 3
+            gap_size = 5
+            bg_col = rgb(111111)
+            workspace_method = workspace 1
+
+            enable_gesture = true # laptop touchpad
+            gesture_fingers = 3  # 3 or 4
+            gesture_distance = 300 # how far is the "max"
+            gesture_positive = false # positive = swipe down. Negative = swipe up.
+        }
       }
 
-
-      #-- Window Rules ------------------------------------------------
-      windowrule = float,nm-connection-editor|pavucontrol
-      windowrule = float,kvantummanager|qt5ct
-      # windowrule = float,VirtualBox Manager|qemu|Qemu-system-x86_64
-      windowrule = float,gnome-policykit-agent
-      windowrule = float,blueman-manager
-      windowrule = tile, title:^(SimpleX)
-
-
-      windowrule = opacity .9 .8 ,kitty
-      #make neovim less transparent that a regular terminal when focused
-      windowrule = opacity 1.2 .9, title:^(nv)$
-
-      windowrule = workspace 1, $term
-      windowrule = workspace 2, $browser
-      windowrule = workspace 3, $mail
-      windowrule = workspace 6, flatpak run com.discordapp.Discord
-      windowrule = workspace 7, valent
-
-      windowrule = pin, title:^(Floating Window - Show Me The Key)(.*)$
-      windowrule = float, title:^(Floating Window - Show Me The Key)(.*)$
-      windowrule = pseudo, title:^(Floating Window - Show Me The Key)(.*)$
-
-      exec-once = $XDG_CONFIG_HOME/hypr/scripts/cleanup.sh
-
-      #-- Keybindings ----------------------------------------------------
+      #-- Variables ----------------------------------------------------
       $term = kitty
       $menu = fuzzel
       $dashboard = $XDG_CONFIG_HOME/eww/dashboard/launch_dashboard.sh
@@ -248,8 +250,8 @@
       $colorpicker = $XDG_CONFIG_HOME/hypr/scripts/colorpicker.sh
       $files = kitty yazi
       $editor = kitty nvim
-      $browser = floorp
-      $mail = kitty neomutt
+      $browser = zen
+      $mail = evolution
       # $kilw = sh ~/.config/hypr/scripts/killw.sh
       # $revw=sh ~/.config/hypr/scripts/statusbar
       $music = $term ncmpcpp
@@ -258,6 +260,25 @@
       $powermenu = $XDG_CONFIG_HOME/hypr/scripts/powerprofile.sh
       $wifimenu = networkmanager_dmenu
       $task = kitty taskwarrior-tui
+
+      #-- Window Rules ------------------------------------------------
+      windowrule = float,nm-connection-editor|pavucontrol
+      windowrule = float,kvantummanager|qt5ct
+      # windowrule = float,VirtualBox Manager|qemu|Qemu-system-x86_64
+      windowrule = float,gnome-policykit-agent
+      windowrule = float,blueman-manager
+      windowrule = tile, title:^(SimpleX)
+
+
+      # windowrule = opacity .9 .8 ,kitty
+      #make neovim less transparent that a regular terminal when focused
+      windowrule = opacity 1.2 .9, title:^(nv)$
+
+      windowrule = pin, title:^(Floating Window - Show Me The Key)(.*)$
+      windowrule = float, title:^(Floating Window - Show Me The Key)(.*)$
+      windowrule = pseudo, title:^(Floating Window - Show Me The Key)(.*)$
+
+      exec-once = $XDG_CONFIG_HOME/hypr/scripts/cleanup.sh
 
       # -- Layouts --
       bind = ALT, L, exec, hyprctl keyword general:layout dwindle
@@ -390,6 +411,9 @@
       # bind = SUPERSHIFT, R, hyprload,reload
       # bind = SUPERSHIFT, U, hyprload,update
 
+      # bind = SUPER, o, overview:toggle # can be: toggle, off/disable or on/enable
+      # bind = SUPER, o, hyprexpo:expo, toggle # can be: toggle, off/disable or on/enable
+
       #-- Move workspaces on connect ---------------------------------
       exec-once=$XDG_CONFIG_HOME/hypr/scripts/handle-monitor-connect.sh
 
@@ -405,6 +429,15 @@
 
       #-- Plugins ----------------------------------------------------
       # exec-once=$HOME/.local/share/hyprload/hyprload.sh
+
+      #-- Startup Applications ---------------------------------------
+
+      exec-once = [workspace 1 silent] kitty zellij a default
+      exec-once = [workspace 2 silent] zen
+      exec-once = [workspace 3 silent] evolution
+      exec-once = [workspace 6 silent] discord
+      exec-once = [workspace 7 silent] valent
+      exec-once = [workspace special silent] kitty ncmpcpp
 
       #-- Startup ----------------------------------------------------
       # Start up script

@@ -11,13 +11,9 @@
     ./dev/python.nix
 
     # Programs
-    ./programs/gtklock.nix
-    ./programs/nonfree.nix
-    ./programs/programs.nix
+    ./programs/default.nix
+
     # ./programs/sunshine.nix
-    ./programs/programs-unstable.nix
-    ./programs/helix.nix
-    ./programs/cli.nix
     ./hyprland/default.nix
   ];
 }
